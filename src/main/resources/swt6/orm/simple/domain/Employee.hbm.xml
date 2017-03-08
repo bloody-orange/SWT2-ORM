@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="swt6.orm.simple.domain">
+    <class name="Employee">
+        <id name="id">
+        	<generator class="sequence"></generator>
+        </id>
+        
+        <property name="firstName" length="20" type="string"></property>
+        <property name="lastName" length="50" not-null="true" type="string"></property>
+        <property name="dateOfBirth" type="date"></property>
+    </class>
+</hibernate-mapping>
