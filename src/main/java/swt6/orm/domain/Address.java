@@ -1,67 +1,58 @@
 package swt6.orm.domain;
 
-import java.io.Serializable;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+// map 1:1 with one table
+@Entity
+public class Address {
+    @AttributeOverrides({
+            @AttributeOverride(name = "zipCode", column = @Column(name = "zipCode")),
+            @AttributeOverride(name = "city", column = @Column(name = "city")),
+            @AttributeOverride(name = "street", column = @Column(name = "street")),
+    })
+    @EmbeddedId
+    private AddressId addressId;
 
-// map 1:1 with two tables
-// @Entity 
-// map 1:1 in one table
-@Embeddable
-public class Address implements Serializable {
-  private static final long serialVersionUID = 1L;
 
-  //@Id @GeneratedValue
-  //private Long     id;
-  private String   zipCode;
-  private String   city;
-  private String   street;
-  
-  public Address() {  
-  }
+    @OneToMany(mappedBy = "address", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    private Set<Employee> inhabitants = new HashSet<>();
 
-  public Address(String zipCode, String city, String street) {
-    this.zipCode = zipCode;
-    this.city = city;
-    this.street = street;
-  }
+    public Set<Employee> getInhabitants() {
+        return inhabitants;
+    }
 
-//  public Long getId() {
-//    return id;
-//  }
-//
-//  public void setId(Long id) {
-//    this.id = id;
-//  }
+    public void setInhabitants(Set<Employee> inhabitants) {
+        this.inhabitants = inhabitants;
+    }
 
-  public String getCity() {
-    return city;
-  }
+    public void addInhabitant(Employee employee) {
+        if (employee == null) {
+            throw new IllegalArgumentException("Employee was null");
+        }
+        this.inhabitants.add(employee);
+    }
 
-  public void setCity(String city) {
-    this.city = city;
-  }
+    public void removeInhabitant(Employee employee) {
+        if (employee == null) {
+            throw new IllegalArgumentException("Employee was null");
+        }
+        this.inhabitants.remove(employee);
+    }
 
-  public String getStreet() {
-    return street;
-  }
+    public AddressId getAddressId() {
+        return addressId;
+    }
 
-  public void setStreet(String street) {
-    this.street = street;
-  }
+    public void setAddressId(AddressId addressId) {
+        this.addressId = addressId;
+    }
 
-  public String getZipCode() {
-    return zipCode;
-  }
+    public Address() {
+    }
 
-  public void setZipCode(String zipCode) {
-    this.zipCode = zipCode;
-  }
-
-  public String toString() {
-    return zipCode + " " + city + ", " + street;
-  }
+    public Address(String zipCode, String city, String street) {
+        this.addressId = new AddressId(zipCode, city, street);
+    }
 }

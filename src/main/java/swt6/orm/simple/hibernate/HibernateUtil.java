@@ -1,12 +1,9 @@
 package swt6.orm.simple.hibernate;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import net.bytebuddy.asm.Advice.This;;
 
 public class HibernateUtil {
 	private static SessionFactory sessionFactory = null;
