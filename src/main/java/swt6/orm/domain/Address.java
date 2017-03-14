@@ -55,4 +55,9 @@ public class Address {
     public Address(String zipCode, String city, String street) {
         this.addressId = new AddressId(zipCode, city, street);
     }
+
+    @Override
+    public String toString() {
+        return addressId.toString();
+    }
 }

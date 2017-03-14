@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
 public class Phase implements Serializable {
 
     @Id

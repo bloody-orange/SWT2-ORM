@@ -13,6 +13,14 @@ import javax.persistence.*;
 
 
 @Entity
+// Strategy 1
+//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+// Strategy 2
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="type", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("E")
+// Strategy 3
+//@Inheritance(strategy = InheritanceType.JOINED)
 public class Employee implements Serializable {
     private static final long serialVersionUID = -6726960404716047785L;
 
@@ -30,7 +38,14 @@ public class Employee implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
+<<<<<<< HEAD
     @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.LAZY)
+=======
+    // default FetchType.LAZY
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL}, orphanRemoval = true,
+                fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SELECT)
+>>>>>>> b4c1bc4acd25682746f969ea95fd253096dffd39
     private Set<LogbookEntry> logbookEntries = new HashSet<>();
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
@@ -42,7 +57,11 @@ public class Employee implements Serializable {
     })
     private Address address;
 
+<<<<<<< HEAD
     @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
+=======
+    @ManyToMany(fetch = FetchType.EAGER)
+>>>>>>> b4c1bc4acd25682746f969ea95fd253096dffd39
     private Set<Project> projects = new HashSet<>();
 
     public Employee() {

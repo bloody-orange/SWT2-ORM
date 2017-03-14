@@ -45,6 +45,7 @@ public class AddressId implements Serializable {
         this.zipCode = zipCode;
     }
 
+    @Override
     public String toString() {
         return zipCode + " " + city + ", " + street;
     }
