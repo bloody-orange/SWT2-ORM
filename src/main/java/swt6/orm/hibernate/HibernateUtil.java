@@ -17,9 +17,14 @@ public class HibernateUtil {
 
             // add employee as an entity, type safe
             config.addAnnotatedClass(Employee.class);
+            config.addAnnotatedClass(TemporaryEmployee.class);
+            config.addAnnotatedClass(PermanentEmployee.class);
             config.addAnnotatedClass(LogbookEntry.class);
             config.addAnnotatedClass(Address.class);
             config.addAnnotatedClass(Module.class);
+            config.addAnnotatedClass(Project.class);
+            config.addAnnotatedClass(Issue.class);
+            config.addAnnotatedClass(Phase.class);
 
             //config.addAnnotatedClass(Address.class);
             config.addAnnotatedClass(Project.class);

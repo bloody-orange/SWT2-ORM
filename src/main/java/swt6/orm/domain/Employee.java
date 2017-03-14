@@ -1,5 +1,7 @@
 package swt6.orm.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.engine.spi.CascadeStyle;
 
 import java.io.Serializable;
@@ -11,6 +13,14 @@ import javax.persistence.*;
 
 
 @Entity
+// Strategy 1
+//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+// Strategy 2
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="type", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("E")
+// Strategy 3
+//@Inheritance(strategy = InheritanceType.JOINED)
 public class Employee implements Serializable {
     private static final long serialVersionUID = -6726960404716047785L;
 
@@ -28,7 +38,10 @@ public class Employee implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
-    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    // default FetchType.LAZY
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL}, orphanRemoval = true,
+                fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SELECT)
     private Set<LogbookEntry> logbookEntries = new HashSet<>();
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
@@ -39,7 +52,7 @@ public class Employee implements Serializable {
     })
     private Address address;
 
-    @ManyToMany(mappedBy = "members", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Project> projects = new HashSet<>();
 
     public Employee() {

@@ -1,17 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="Derby (Client) - localhost">
-  <database-model serializer="dbm" rdbms="DERBY" format-version="4.0">
+  <database-model serializer="dbm" rdbms="DERBY" format-version="4.1">
     <root id="1"/>
-    <schema id="2" parent="1" name="APP"/>
-    <schema id="3" parent="1" name="NULLID"/>
-    <schema id="4" parent="1" name="SQLJ"/>
-    <schema id="5" parent="1" name="SYS"/>
-    <schema id="6" parent="1" name="SYSCAT"/>
-    <schema id="7" parent="1" name="SYSCS_DIAG"/>
-    <schema id="8" parent="1" name="SYSCS_UTIL"/>
-    <schema id="9" parent="1" name="SYSFUN"/>
-    <schema id="10" parent="1" name="SYSIBM"/>
-    <schema id="11" parent="1" name="SYSPROC"/>
-    <schema id="12" parent="1" name="SYSSTAT"/>
+    <schema id="2" parent="1" name="APP">
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="NULLID">
+      <Visible>1</Visible>
+    </schema>
+    <schema id="4" parent="1" name="SQLJ">
+      <Visible>1</Visible>
+    </schema>
+    <schema id="5" parent="1" name="SYS">
+      <Visible>1</Visible>
+    </schema>
+    <schema id="6" parent="1" name="SYSCAT">
+      <Visible>1</Visible>
+    </schema>
+    <schema id="7" parent="1" name="SYSCS_DIAG">
+      <Visible>1</Visible>
+    </schema>
+    <schema id="8" parent="1" name="SYSCS_UTIL">
+      <Visible>1</Visible>
+    </schema>
+    <schema id="9" parent="1" name="SYSFUN">
+      <Visible>1</Visible>
+    </schema>
+    <schema id="10" parent="1" name="SYSIBM">
+      <Visible>1</Visible>
+    </schema>
+    <schema id="11" parent="1" name="SYSPROC">
+      <Visible>1</Visible>
+    </schema>
+    <schema id="12" parent="1" name="SYSSTAT">
+      <Visible>1</Visible>
+    </schema>
   </database-model>
 </dataSource>

@@ -8,7 +8,9 @@
       <case-sensitivity plain-identifiers="upper" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
       <user-name>derby</user-name>
+      <introspection-schemas>*</introspection-schemas>
       <resolve-scope>:APP,DERBY</resolve-scope>
+      <unqualified-resolve-schemas>:APP,DERBY</unqualified-resolve-schemas>
     </data-source>
   </component>
 </project>

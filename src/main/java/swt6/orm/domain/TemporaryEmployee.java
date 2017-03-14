@@ -1,10 +1,10 @@
 package swt6.orm.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@DiscriminatorValue("TE")
 public class TemporaryEmployee extends Employee {
 
     @Column

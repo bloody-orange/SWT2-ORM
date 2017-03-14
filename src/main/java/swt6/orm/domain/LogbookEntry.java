@@ -2,6 +2,8 @@ package swt6.orm.domain;
 
 import com.sun.corba.se.impl.encoding.CodeSetConversion;
 import com.sun.org.apache.bcel.internal.generic.CASTORE;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.engine.spi.CascadeStyle;
 import sun.security.util.Length;
 
@@ -28,7 +30,9 @@ public class LogbookEntry implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date stopTime;
 
-    @ManyToOne // owning side, employee defines the foreign key -> bidirectional
+    // possible: EAGER JOIN (default), EAGER SELECT, LAZY (SELECT)
+    @ManyToOne(fetch = FetchType.EAGER) // owning side, employee defines the foreign key -> bidirectional
+    @Fetch(FetchMode.SELECT) // Hibernate Annotation, not JPA
     private Employee employee;
 
     @ManyToOne
