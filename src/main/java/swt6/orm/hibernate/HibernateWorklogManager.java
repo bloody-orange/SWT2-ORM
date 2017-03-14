@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import swt6.orm.domain.Address;
-import swt6.orm.domain.Employee;
-import swt6.orm.domain.LogbookEntry;
-import swt6.orm.domain.Project;
+import swt6.orm.domain.*;
 import swt6.util.DateUtil;
 
 public class HibernateWorklogManager {
@@ -34,6 +31,8 @@ public class HibernateWorklogManager {
             LogbookEntry entry2 = new LogbookEntry("Krafttraining", DateUtil.getTime(9, 30), DateUtil.getTime(10, 30));
             LogbookEntry entry3 = new LogbookEntry("Slalomtraining", DateUtil.getTime(11, 0), DateUtil.getTime(13, 0));
             LogbookEntry entry4 = new LogbookEntry("Massage", DateUtil.getTime(15, 0), DateUtil.getTime(16, 30));
+
+            Issue issue1 = new Issue(IssueState.NEW, IssuePriority.LOW, 30, 0);
 
             System.out.println("---  save employees  ---");
             empl1 = saveEntity(empl1);

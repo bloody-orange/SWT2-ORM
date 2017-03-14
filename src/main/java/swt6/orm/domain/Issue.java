@@ -1,5 +1,8 @@
 package swt6.orm.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Period;
@@ -10,16 +13,11 @@ public class Issue implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    public enum IssueState {
-        NEW, OPEN, RESOLVED, CLOSED, REJECTED
-    }
+    @Column(length = 1000)
+    private String description;
 
     @Column(nullable = false)
     private IssueState state;
-
-    public enum IssuePriority {
-        LOW, NORMAL, HIGH
-    }
 
     @Column(nullable = false)
     private IssuePriority priority;
@@ -30,11 +28,19 @@ public class Issue implements Serializable {
     @Column
     private int percentageDone;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
+    private Employee assignee;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @Fetch(FetchMode.JOIN)
+    private Project project;
+
     public Issue() {
     }
 
-    public Issue(IssueState state, IssuePriority priority, int estimatedMinutes) {
-        this.percentageDone = 0;
+    public Issue(Project project, IssueState state, IssuePriority priority, int estimatedMinutes, int percentageDone) {
+        this.percentageDone = percentageDone;
         this.state = state;
         this.priority = priority;
         this.estimatedMinutes = estimatedMinutes;
@@ -43,6 +49,30 @@ public class Issue implements Serializable {
     public Long getId() {
 
         return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Employee getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(Employee assignee) {
+        this.assignee = assignee;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public void setId(Long id) {

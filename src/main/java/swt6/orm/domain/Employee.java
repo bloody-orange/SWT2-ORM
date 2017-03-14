@@ -1,5 +1,7 @@
 package swt6.orm.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.engine.spi.CascadeStyle;
 
 import java.io.Serializable;
@@ -28,10 +30,11 @@ public class Employee implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
-    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<LogbookEntry> logbookEntries = new HashSet<>();
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
     @JoinColumns({
             @JoinColumn(name = "zipCode", referencedColumnName = "zipCode"),
             @JoinColumn(name = "city", referencedColumnName = "city"),
@@ -39,7 +42,7 @@ public class Employee implements Serializable {
     })
     private Address address;
 
-    @ManyToMany(mappedBy = "members", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
     private Set<Project> projects = new HashSet<>();
 
     public Employee() {
