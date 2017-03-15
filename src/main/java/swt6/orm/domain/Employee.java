@@ -38,14 +38,10 @@ public class Employee implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
-<<<<<<< HEAD
-    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.LAZY)
-=======
     // default FetchType.LAZY
     @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL}, orphanRemoval = true,
                 fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
->>>>>>> b4c1bc4acd25682746f969ea95fd253096dffd39
     private Set<LogbookEntry> logbookEntries = new HashSet<>();
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
@@ -57,11 +53,7 @@ public class Employee implements Serializable {
     })
     private Address address;
 
-<<<<<<< HEAD
     @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
-=======
-    @ManyToMany(fetch = FetchType.EAGER)
->>>>>>> b4c1bc4acd25682746f969ea95fd253096dffd39
     private Set<Project> projects = new HashSet<>();
 
     public Employee() {

@@ -30,20 +30,16 @@ public class LogbookEntry implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date stopTime;
 
-<<<<<<< HEAD
-    @ManyToOne(fetch = FetchType.EAGER, optional = false) // owning side, employee defines the foreign key -> bidirectional
-    @Fetch(FetchMode.JOIN)
-=======
-    // possible: EAGER JOIN (default), EAGER SELECT, LAZY (SELECT)
-    @ManyToOne(fetch = FetchType.EAGER) // owning side, employee defines the foreign key -> bidirectional
-    @Fetch(FetchMode.SELECT) // Hibernate Annotation, not JPA
->>>>>>> b4c1bc4acd25682746f969ea95fd253096dffd39
+    // you often need at least the name of the assignee -> eager fetch
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @Fetch(FetchMode.SELECT)
     private Employee employee;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @Fetch(FetchMode.JOIN)
     private Phase phase;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Module module;
 
     public LogbookEntry() {

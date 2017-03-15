@@ -8,11 +8,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.lf5.viewer.LogBrokerMonitor;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-<<<<<<< HEAD
-=======
-import org.hibernate.loader.entity.LegacyBatchingEntityLoaderBuilder;
 import org.hibernate.query.Query;
->>>>>>> b4c1bc4acd25682746f969ea95fd253096dffd39
 import swt6.orm.domain.*;
 import swt6.util.DateUtil;
 
@@ -45,7 +41,9 @@ public class HibernateWorklogManager {
             LogbookEntry entry3 = new LogbookEntry("Slalomtraining", DateUtil.getTime(11, 0), DateUtil.getTime(13, 0));
             LogbookEntry entry4 = new LogbookEntry("Massage", DateUtil.getTime(15, 0), DateUtil.getTime(16, 30));
 
-            Issue issue1 = new Issue(IssueState.NEW, IssuePriority.LOW, 30, 0);
+            Issue issue1 = new Issue("testing stuff", proj1, IssueState.CLOSED, IssuePriority.LOW, 30, 100);
+            Issue issue2 = new Issue("testing more stuff", proj1, IssueState.NEW, IssuePriority.NORMAL, 60, 0);
+            Issue issue3 = new Issue("Üben", proj2, IssueState.OPEN, IssuePriority.NORMAL, 120, 0);
 
             System.out.println("---  save employees  ---");
             empl1 = saveEntity(empl1);
@@ -67,6 +65,11 @@ public class HibernateWorklogManager {
             System.out.println("-- add members to projects --");
             proj1 = addProject(proj1, empl1, empl2);
             proj2 = addProject(proj2, empl3);
+
+            System.out.println("-- add issues --");
+            issue1 = saveEntity(issue1);
+            issue2 = saveEntity(issue2);
+            issue3 = saveEntity(issue3);
 
             System.out.println("--- list ---");
             listEmployees();

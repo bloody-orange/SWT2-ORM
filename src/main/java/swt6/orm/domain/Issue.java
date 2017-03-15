@@ -39,7 +39,9 @@ public class Issue implements Serializable {
     public Issue() {
     }
 
-    public Issue(Project project, IssueState state, IssuePriority priority, int estimatedMinutes, int percentageDone) {
+    public Issue(String description, Project project, IssueState state, IssuePriority priority, int estimatedMinutes, int percentageDone) {
+        this.description = description;
+        this.project = project;
         this.percentageDone = percentageDone;
         this.state = state;
         this.priority = priority;
