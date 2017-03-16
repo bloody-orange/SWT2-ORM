@@ -4,12 +4,12 @@
                                  http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
 
-	<persistence-unit name="WorkLogPU">
+	<persistence-unit name="WorkLogPU" transaction-type="JTA">
 		<!-- The provider only needs to be set if you use several JPA providers -->
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
 		<properties>
-			<!-- Scan for annotated classes. The specification demands
+			<!-- Scan for annotated classes. The specification
 			     only requires managed providers to implement this feature.
 			     So, unmanaged providers may not provide it. -->
 			<property name="hibernate.archive.autodetection" value="class" />

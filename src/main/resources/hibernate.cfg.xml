@@ -8,7 +8,7 @@
         <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.ClientDriver</property>
         <property name="hibernate.connection.url">jdbc:derby://localhost:1527/WorklogDb;create=true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.DerbyTenSevenDialect</property>
-        
+
         <property name="hibernate.hbm2ddl.auto">create</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">false</property>

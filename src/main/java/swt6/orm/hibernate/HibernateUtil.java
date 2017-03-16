@@ -2,10 +2,10 @@ package swt6.orm.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import swt6.orm.domain.*;
-;
 
 public class HibernateUtil {
     private static SessionFactory sessionFactory = null;
@@ -54,6 +54,34 @@ public class HibernateUtil {
             session.close();
             session = null;
         }
+    }
+
+    public static Session getTransactedSession() {
+        Session session = getSessionFactory().getCurrentSession();
+        Transaction tx = session.getTransaction();
+        if (!tx.isActive()) {
+            tx.begin();
+        }
+        return session;
+    }
+
+
+    public static void commit() {
+        Session session = getSessionFactory().getCurrentSession();
+        Transaction tx = session.getTransaction();
+        if (tx.isActive()) {
+            tx.commit();
+        }
+        closeSession();
+    }
+
+    public static void rollback() {
+        Session session = getSessionFactory().getCurrentSession();
+        Transaction tx = session.getTransaction();
+        if (tx.isActive()) {
+            tx.rollback();
+        }
+        closeSession();
     }
 
     public static Session getCurrentSession() {

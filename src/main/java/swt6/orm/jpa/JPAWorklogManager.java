@@ -2,10 +2,7 @@ package swt6.orm.jpa;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import swt6.orm.domain.Address;
-import swt6.orm.domain.Employee;
-import swt6.orm.domain.LogbookEntry;
-import swt6.orm.domain.Project;
+import swt6.orm.domain.*;
 import swt6.orm.hibernate.HibernateUtil;
 import swt6.util.DateUtil;
 
@@ -31,14 +28,23 @@ public class JPAWorklogManager {
             Address addr3 = new Address("5020", "Salzburg", "Sterneckstraße 33");
             empl3.setAddress(addr3);
 
-            Project proj1 = new Project("Testprojekt");
-            Project proj2 = new Project("Testübung");
+            Project proj1 = new Project("Testprojekt", null);
+            Project proj2 = new Project("Testübung", null);
 
-            LogbookEntry entry1 = new LogbookEntry("Müsli essen", DateUtil.getTime(8, 0), DateUtil.getTime(9, 0));
-            LogbookEntry entry2 = new LogbookEntry("Krafttraining", DateUtil.getTime(9, 30), DateUtil.getTime(10, 30));
-            LogbookEntry entry3 = new LogbookEntry("Slalomtraining", DateUtil.getTime(11, 0), DateUtil.getTime(13, 0));
-            LogbookEntry entry4 = new LogbookEntry("Massage", DateUtil.getTime(15, 0), DateUtil.getTime(16, 30));
+            Phase phase1 = new Phase("Analyse");
+            Phase phase2 = new Phase("Implementierung");
 
+            Module module1 = new Module("Module1", proj1);
+            Module module2 = new Module("Module2", proj2);
+
+            LogbookEntry entry1 = new LogbookEntry("Müsli essen", DateUtil.getTime(8, 0),
+                    DateUtil.getTime(9, 0), empl1, phase1, module1);
+            LogbookEntry entry2 = new LogbookEntry("Krafttraining", DateUtil.getTime(9, 30),
+                    DateUtil.getTime(10, 30), empl2, phase2, module1);
+            LogbookEntry entry3 = new LogbookEntry("Slalomtraining", DateUtil.getTime(11, 0),
+                    DateUtil.getTime(13, 0), empl2, phase1, module2);
+            LogbookEntry entry4 = new LogbookEntry("Massage", DateUtil.getTime(15, 0),
+                    DateUtil.getTime(16, 30), empl3, phase1, module2);
             System.out.println("------------- insertEmployee ----------------");
             insertEntity(empl1);
 

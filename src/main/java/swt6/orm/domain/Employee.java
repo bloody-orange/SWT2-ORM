@@ -14,11 +14,11 @@ import javax.persistence.*;
 
 @Entity
 // Strategy 1
-//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 // Strategy 2
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="type", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("E")
+//@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name="type", discriminatorType = DiscriminatorType.STRING)
+//@DiscriminatorValue("E")
 // Strategy 3
 //@Inheritance(strategy = InheritanceType.JOINED)
 public class Employee implements Serializable {

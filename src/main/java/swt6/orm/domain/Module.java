@@ -19,6 +19,13 @@ public class Module implements Serializable {
     @OneToMany(mappedBy = "module")
     private Set<LogbookEntry> logbookEntries = new HashSet<>();
 
+    public Module(String name, Project project) {
+        this.name = name;
+        this.project = project;
+    }
+
+    public Module() {
+    }
 
     public Long getId() {
         return id;

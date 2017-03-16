@@ -15,8 +15,17 @@ public class Project implements Serializable {
     private Long id;
     private String name;
 
-    @ManyToMany(mappedBy = "projects")
+    @ManyToMany
+    @JoinTable(name = "ProjectEmployee",
+            joinColumns = {
+                @JoinColumn(name = "projectId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "employeeId")})
     private Set<Employee> members = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "leaderId")
+    private Employee leader;
 
 
     @OneToMany(mappedBy = "project")
@@ -29,8 +38,18 @@ public class Project implements Serializable {
     public Project() {
     }
 
-    public Project(String name) {
+    public Project(String name, Employee leader) {
         this.name = name;
+        this.leader = leader;
+    }
+
+
+    public Employee getLeader() {
+        return leader;
+    }
+
+    public void setLeader(Employee leader) {
+        this.leader = leader;
     }
 
     public void setId(Long id) {

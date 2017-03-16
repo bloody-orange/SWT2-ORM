@@ -5,8 +5,8 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Period;
 
+@Entity
 public class Issue implements Serializable {
 
     @Id

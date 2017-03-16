@@ -46,10 +46,13 @@ public class LogbookEntry implements Serializable {
 
     }
 
-    public LogbookEntry(String activity, Date startTime, Date stopTime) {
+    public LogbookEntry(String activity, Date startTime, Date stopTime, Employee employee, Phase phase, Module module) {
         this.activity = activity;
         this.startTime = startTime;
         this.stopTime = stopTime;
+        employee.addLogbookEntry(this);
+        phase.addLogbookEntry(this);
+        module.addLogbookEntry(this);
     }
 
     public Long getId() {

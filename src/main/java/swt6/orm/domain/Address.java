@@ -1,5 +1,4 @@
 package swt6.orm.domain;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +13,6 @@ public class Address {
     })
     @EmbeddedId
     private AddressId addressId;
-
 
     @OneToMany(mappedBy = "address", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private Set<Employee> inhabitants = new HashSet<>();
