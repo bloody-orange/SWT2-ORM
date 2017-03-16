@@ -38,7 +38,6 @@ public class BTMUtil {
             e.printStackTrace();
         }
         EntityManager em = getEntityManager();
-        em.joinTransaction();
         return em;
     }
 

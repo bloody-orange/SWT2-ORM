@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class Issue implements Serializable {
+public class Issue implements BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

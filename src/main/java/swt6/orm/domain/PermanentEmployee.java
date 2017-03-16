@@ -12,11 +12,11 @@ public class PermanentEmployee extends Employee {
     @Column
     private double salary;
 
-    private PermanentEmployee() {
+    public PermanentEmployee() {
         super();
     }
 
-    private PermanentEmployee(String firstName, String lastName, Date dateOfBirth, double salary) {
+    public PermanentEmployee(String firstName, String lastName, Date dateOfBirth, double salary) {
         super(firstName, lastName, dateOfBirth);
         this.salary = salary;
 

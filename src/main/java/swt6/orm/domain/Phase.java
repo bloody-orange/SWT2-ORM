@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Phase implements Serializable {
+public class Phase implements BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

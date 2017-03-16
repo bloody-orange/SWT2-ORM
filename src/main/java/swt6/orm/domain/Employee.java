@@ -21,7 +21,7 @@ import javax.persistence.*;
 //@DiscriminatorValue("E")
 // Strategy 3
 //@Inheritance(strategy = InheritanceType.JOINED)
-public class Employee implements Serializable {
+public class Employee implements BaseEntity<Long> {
     private static final long serialVersionUID = -6726960404716047785L;
 
     @Id

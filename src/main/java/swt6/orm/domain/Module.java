@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Module implements Serializable {
+public class Module implements BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;

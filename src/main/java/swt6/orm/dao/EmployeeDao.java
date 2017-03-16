@@ -8,11 +8,12 @@ import swt6.orm.domain.Project;
 import java.util.List;
 
 public interface EmployeeDao {
-    void add(Employee employee);
+    Long add(Employee e);
+    void remove(Long id, Class<Employee> entityType);
     void updateLastName(long employeeId, String lastname);
     void updateFirstName(long employeeId, String firstname);
     void addLogbookEntry(long employeeId, LogbookEntry entry);
     void setAddress(long employeeId, Address address);
-    Employee findByName(String name);
+    List<Employee> findByName(String name);
     List<Employee> findByProject(long projectId);
 }

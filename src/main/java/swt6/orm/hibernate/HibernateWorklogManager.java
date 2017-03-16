@@ -120,10 +120,29 @@ public class HibernateWorklogManager {
         try {
             BTMUtil.getFactory();
             Employee e = new Employee("hi", "du", DateUtil.getDate(1995, 2, 3));
+            Employee e1 = new Employee("hasdfi", "du", DateUtil.getDate(1995, 2, 13));
             EmployeeDao eDao = new EmployeeDaoImpl();
 
             eDao.add(e);
+            Long id = eDao.add(e1);
+
+            Project proj = new Project("haha", null);
+            BTMUtil.getTransactedEntityManager().persist(proj);
+
+            Module mod = new Module("haha", proj);
+            BTMUtil.getTransactedEntityManager().persist(mod);
+
+            Phase phase = new Phase("ho");
+            BTMUtil.getTransactedEntityManager().persist(phase);
+            LogbookEntry le = new LogbookEntry("asdf", DateUtil.getTime(2015, 4, 3, 3, 5, 3),
+                    DateUtil.getTime(2015, 4, 3, 3, 5, 6), e, phase, mod);
+
             BTMUtil.commit();
+
+            listEmployees();
+            eDao.remove(id, Employee.class);
+            BTMUtil.commit();
+
             listEmployees();
         } catch (Exception e) {
             e.printStackTrace();
@@ -272,6 +291,7 @@ public class HibernateWorklogManager {
     }
 
     private static void listEmployees() {
+        System.out.println("--- list Employees ---");
         EntityManager em = BTMUtil.getTransactedEntityManager();
 
         List<Employee> allEmpls = em.createQuery("select e from Employee e", Employee.class).getResultList();

@@ -1,18 +1,21 @@
 package swt6.orm.domain;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 // map 1:1 with one table
 @Entity
-public class Address {
+public class Address implements BaseEntity<AddressId> {
     @AttributeOverrides({
             @AttributeOverride(name = "zipCode", column = @Column(name = "zipCode")),
             @AttributeOverride(name = "city", column = @Column(name = "city")),
             @AttributeOverride(name = "street", column = @Column(name = "street")),
     })
     @EmbeddedId
-    private AddressId addressId;
+    private AddressId id;
+
 
     @OneToMany(mappedBy = "address", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private Set<Employee> inhabitants = new HashSet<>();
@@ -39,23 +42,23 @@ public class Address {
         this.inhabitants.remove(employee);
     }
 
-    public AddressId getAddressId() {
-        return addressId;
+    public AddressId getId() {
+        return id;
     }
 
-    public void setAddressId(AddressId addressId) {
-        this.addressId = addressId;
+    public void setId(AddressId addressId) {
+        this.id = addressId;
     }
 
     public Address() {
     }
 
     public Address(String zipCode, String city, String street) {
-        this.addressId = new AddressId(zipCode, city, street);
+        this.id = new AddressId(zipCode, city, street);
     }
 
     @Override
     public String toString() {
-        return addressId.toString();
+        return id.toString();
     }
 }

@@ -7,7 +7,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 @Entity
-public class Project implements Serializable {
+public class Project implements BaseEntity<Long> {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -27,9 +27,19 @@ public class Project implements Serializable {
     @JoinColumn(name = "leaderId")
     private Employee leader;
 
-
     @OneToMany(mappedBy = "project")
     private Set<Module> modules;
+
+    @OneToMany(mappedBy = "project")
+    private Set<Issue> issues;
+
+    public Set<Issue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(Set<Issue> issues) {
+        this.issues = issues;
+    }
 
     public Long getId() {
         return id;
@@ -62,6 +72,23 @@ public class Project implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public void addIssue(Issue issue) {
+        if (issue == null) {
+            throw new IllegalArgumentException("Issue was null");
+        }
+        this.issues.add(issue);
+        issue.setProject(this); // bidirectional relation
+    }
+
+    public void removeIssue(Issue issue) {
+        if (issue == null) {
+            throw new IllegalArgumentException("Issue was null");
+        }
+        this.issues.remove(issue);
+        issue.setProject(null);
     }
 
     public Set<Employee> getMembers() {

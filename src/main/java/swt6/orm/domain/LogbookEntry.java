@@ -14,7 +14,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 @Entity
-public class LogbookEntry implements Serializable {
+public class LogbookEntry implements BaseEntity<Long> {
     private static final long serialVersionUID = 1L;
 
     @Id
