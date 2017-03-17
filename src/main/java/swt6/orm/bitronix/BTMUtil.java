@@ -1,4 +1,4 @@
-package swt6.orm.dao;
+package swt6.orm.bitronix;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -13,6 +13,33 @@ public class BTMUtil {
     private static Context ctx = null;
     private static ThreadLocal<EntityManager> emThread = new ThreadLocal<>();
 
+    public static boolean executeTransaction(Transactor transactor) {
+        try {
+            EntityManager em = getTransactedEntityManager();
+            transactor.executeTransaction();
+            UserTransaction tx = (UserTransaction) ctx.lookup("java:comp/UserTransaction");
+            if (tx.getStatus() == Status.STATUS_ACTIVE) {
+                tx.commit();
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            rollback();
+            return false;
+        }
+    }
+
+    public static void startTransaction() {
+        try {
+            UserTransaction tx = (UserTransaction) ctx.lookup("java:comp/UserTransaction");
+            if (tx.getStatus() != Status.STATUS_ACTIVE) {
+                tx.begin();
+            }
+            getEntityManager();
+        } catch (NamingException | NotSupportedException | SystemException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static EntityManager getEntityManager() {
         if (emThread.get() == null) {
@@ -29,16 +56,8 @@ public class BTMUtil {
     }
 
     public static EntityManager getTransactedEntityManager() {
-        try {
-            UserTransaction tx = (UserTransaction) ctx.lookup("java:comp/UserTransaction");
-            if (tx.getStatus() != Status.STATUS_ACTIVE) {
-                tx.begin();
-            }
-        } catch (NamingException | NotSupportedException | SystemException e) {
-            e.printStackTrace();
-        }
-        EntityManager em = getEntityManager();
-        return em;
+        startTransaction();
+        return getEntityManager();
     }
 
     public static void commit() {
@@ -66,7 +85,7 @@ public class BTMUtil {
         closeEntityManager();
     }
 
-    public static void closeEntityManagerFactory() {
+    public static void closeFactory() {
         if (emFactory != null) {
             emFactory.close();
             emFactory = null;

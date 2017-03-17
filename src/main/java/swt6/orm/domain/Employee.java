@@ -2,25 +2,22 @@ package swt6.orm.domain;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.engine.spi.CascadeStyle;
 
-import java.io.Serializable;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
-
 
 @Entity
 // Strategy 1
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 // Strategy 2
 //@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 //@DiscriminatorColumn(name="type", discriminatorType = DiscriminatorType.STRING)
 //@DiscriminatorValue("E")
 // Strategy 3
-//@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Employee implements BaseEntity<Long> {
     private static final long serialVersionUID = -6726960404716047785L;
 

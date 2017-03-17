@@ -1,15 +1,9 @@
 package swt6.orm.jpa;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import swt6.orm.domain.*;
-import swt6.orm.hibernate.HibernateUtil;
 import swt6.util.DateUtil;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import java.util.List;
 
 public class JPAWorklogManager {

@@ -1,7 +1,7 @@
 package swt6.util;
 
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 
 public class DateUtil {
   public static Date getDate(int year, int month, int day) {

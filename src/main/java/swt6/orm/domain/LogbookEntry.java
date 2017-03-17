@@ -1,17 +1,11 @@
 package swt6.orm.domain;
 
-import com.sun.corba.se.impl.encoding.CodeSetConversion;
-import com.sun.org.apache.bcel.internal.generic.CASTORE;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.engine.spi.CascadeStyle;
-import sun.security.util.Length;
-
-import java.io.Serializable;
-import java.text.DateFormat;
-import java.util.Date;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.util.Date;
 
 @Entity
 public class LogbookEntry implements BaseEntity<Long> {

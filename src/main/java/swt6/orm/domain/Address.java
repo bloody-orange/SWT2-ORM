@@ -1,7 +1,6 @@
 package swt6.orm.domain;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,7 +49,35 @@ public class Address implements BaseEntity<AddressId> {
         this.id = addressId;
     }
 
+    public String getZipCode() {
+        return id.getZipCode();
+    }
+
+    public void setCity(String city) {
+        id.setCity(city);
+    }
+
+    public String getCity() {
+        return id.getCity();
+    }
+
+    public void setStreet(String street) {
+        id.setStreet(street);
+    }
+
+    public String getStreet() {
+        return id.getStreet();
+    }
+
+    public void setZipCode(String zipCode) {
+        id.setZipCode(zipCode);
+    }
+
     public Address() {
+    }
+
+    public Address(AddressId id) {
+        this.id = id;
     }
 
     public Address(String zipCode, String city, String street) {

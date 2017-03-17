@@ -1,17 +1,13 @@
 package swt6.orm.hibernate;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import org.apache.log4j.Logger;
-import org.apache.log4j.lf5.viewer.LogBrokerMonitor;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import swt6.orm.dao.BTMUtil;
+import swt6.orm.bitronix.BTMUtil;
 import swt6.orm.dao.EmployeeDao;
+import swt6.orm.dao.ProjectDao;
 import swt6.orm.dao.impl.EmployeeDaoImpl;
+import swt6.orm.dao.impl.ProjectDaoImpl;
 import swt6.orm.domain.*;
 import swt6.util.DateUtil;
 
@@ -19,6 +15,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public class HibernateWorklogManager {
 
@@ -118,16 +117,17 @@ public class HibernateWorklogManager {
         }*/
 
         try {
-            BTMUtil.getFactory();
+            BTMUtil.startTransaction();
             Employee e = new Employee("hi", "du", DateUtil.getDate(1995, 2, 3));
             Employee e1 = new Employee("hasdfi", "du", DateUtil.getDate(1995, 2, 13));
-            EmployeeDao eDao = new EmployeeDaoImpl();
+            EmployeeDao emplDao = new EmployeeDaoImpl();
+            ProjectDao projDao = new ProjectDaoImpl();
 
-            eDao.add(e);
-            Long id = eDao.add(e1);
+            e = emplDao.addOrUpdate(e);
+            e1 = emplDao.addOrUpdate(e1);
 
             Project proj = new Project("haha", null);
-            BTMUtil.getTransactedEntityManager().persist(proj);
+            projDao.addOrUpdate(proj);
 
             Module mod = new Module("haha", proj);
             BTMUtil.getTransactedEntityManager().persist(mod);
@@ -137,10 +137,13 @@ public class HibernateWorklogManager {
             LogbookEntry le = new LogbookEntry("asdf", DateUtil.getTime(2015, 4, 3, 3, 5, 3),
                     DateUtil.getTime(2015, 4, 3, 3, 5, 6), e, phase, mod);
 
+            e.addLogbookEntry(le);
             BTMUtil.commit();
 
             listEmployees();
-            eDao.remove(id, Employee.class);
+            System.out.println("<<< remove >>>");
+            e1 = emplDao.addOrUpdate(e1);
+            emplDao.remove(e1);
             BTMUtil.commit();
 
             listEmployees();
@@ -148,7 +151,7 @@ public class HibernateWorklogManager {
             e.printStackTrace();
         }
         finally {
-            BTMUtil.closeEntityManagerFactory();
+            BTMUtil.closeFactory();
         }
     }
 

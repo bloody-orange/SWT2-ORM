@@ -1,7 +1,6 @@
 package swt6.orm.domain;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 

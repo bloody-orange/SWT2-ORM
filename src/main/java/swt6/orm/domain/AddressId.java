@@ -1,6 +1,5 @@
 package swt6.orm.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
@@ -12,7 +11,7 @@ public class AddressId implements Serializable {
     private String city;
     private String street;
 
-    AddressId(String zipCode, String city, String street) {
+    public AddressId(String zipCode, String city, String street) {
         this.zipCode = zipCode;
         this.city = city;
         this.street = street;

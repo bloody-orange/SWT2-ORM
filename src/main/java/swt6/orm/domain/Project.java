@@ -1,10 +1,8 @@
 package swt6.orm.domain;
 
-import java.io.Serializable;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.*;
 
 @Entity
 public class Project implements BaseEntity<Long> {
