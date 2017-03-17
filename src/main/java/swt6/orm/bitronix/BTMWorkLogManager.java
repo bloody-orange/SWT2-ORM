@@ -3,21 +3,24 @@ package swt6.orm.bitronix;
 import swt6.orm.dao.*;
 import swt6.orm.dao.impl.*;
 import swt6.orm.domain.*;
+import swt6.orm.persistence.PersistenceManager;
+import swt6.orm.persistence.PersistenceManagerFactory;
 import swt6.util.DateUtil;
 
 public class BTMWorkLogManager {
+    private static PersistenceManager mgr = PersistenceManagerFactory.getManager();
+
     public static void main(String[] args) {
         try {
-            BTMUtil.getFactory();
+            mgr.initFactory();
             addEntities();
         } finally {
-            BTMUtil.closeFactory();
+            mgr.closeFactory();
         }
     }
 
     private static void addEntities() {
-        try {
-            BTMUtil.startTransaction();
+        mgr.executeTransaction(() -> {
             EmployeeDao emplDao = new EmployeeDaoImpl();
             Employee e1 = emplDao.addOrUpdate(new Employee("Hans",
                     "Goldner", DateUtil.getDate(1995, 3, 5)));
@@ -49,12 +52,6 @@ public class BTMWorkLogManager {
             Phase phase1 = phaseDao.addOrUpdate(new Phase("Implementation"));
             Phase phase2 = phaseDao.addOrUpdate(new Phase("Testing"));
             Phase phase3 = phaseDao.addOrUpdate(new Phase("Maintenance"));
-
-            BTMUtil.commit();
-        } catch (Exception e) {
-            BTMUtil.rollback();
-        } finally {
-            BTMUtil.closeEntityManager();
-        }
+        });
     }
 }

@@ -52,11 +52,11 @@ public class AddressId implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AddressId adressId = (AddressId) o;
-
-        return zipCode.equals(adressId.zipCode) && city.equals(adressId.city) && street.equals(adressId.street);
+        if (o instanceof AddressId) {
+            AddressId adressId = (AddressId) o;
+            return zipCode.equals(adressId.zipCode) && city.equals(adressId.city) && street.equals(adressId.street);
+        }
+        return false;
     }
 
     @Override

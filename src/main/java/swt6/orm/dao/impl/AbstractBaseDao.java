@@ -1,14 +1,15 @@
 package swt6.orm.dao.impl;
 
-import swt6.orm.bitronix.BTMUtil;
 import swt6.orm.dao.BaseDao;
 import swt6.orm.domain.BaseEntity;
+import swt6.orm.persistence.PersistenceManager;
+import swt6.orm.persistence.PersistenceManagerFactory;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 public abstract class AbstractBaseDao<T extends BaseEntity<IdT>, IdT> implements BaseDao<T, IdT> {
     private final Class<T> entityType;
+    protected final PersistenceManager mgr = PersistenceManagerFactory.getManager();
 
     AbstractBaseDao(Class<T> entityType) {
         this.entityType = entityType;
@@ -20,20 +21,17 @@ public abstract class AbstractBaseDao<T extends BaseEntity<IdT>, IdT> implements
 
     @Override
     public T addOrUpdate(T entity) {
-        EntityManager em = BTMUtil.getTransactedEntityManager();
-        return em.merge(entity); // creates obj if not existing, throws if it does
+        return mgr.merge(entity); // creates obj if not existing, throws if it does
     }
 
     @Override
     public T getById(IdT id) {
-        EntityManager em = BTMUtil.getTransactedEntityManager();
-        return em.find(entityType, id);
+        return mgr.find(entityType, id);
     }
 
     @Override
     public List<T> getAll() {
-        EntityManager em = BTMUtil.getTransactedEntityManager();
-        return em.createQuery("select e from " + getEntityType().getSimpleName() + " e", getEntityType()).getResultList();
+        return mgr.query("select e from " + getEntityType().getSimpleName() + " e", getEntityType());
     }
 
     @Override
@@ -43,7 +41,6 @@ public abstract class AbstractBaseDao<T extends BaseEntity<IdT>, IdT> implements
 
     @Override
     public void remove(T entity) {
-        EntityManager em = BTMUtil.getTransactedEntityManager();
-        em.remove(entity);
+        mgr.remove(entity);
     }
 }

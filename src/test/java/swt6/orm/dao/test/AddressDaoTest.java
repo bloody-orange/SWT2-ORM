@@ -11,29 +11,29 @@ import swt6.orm.dao.AddressDao;
 import swt6.orm.dao.impl.AddressDaoImpl;
 import swt6.orm.domain.Address;
 import swt6.orm.domain.AddressId;
+import swt6.orm.persistence.PersistenceManager;
+import swt6.orm.persistence.PersistenceManagerFactory;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static swt6.orm.bitronix.BTMUtil.*;
 
 public class AddressDaoTest {
     private static DbSetupTracker tracker = new DbSetupTracker();
     private static final AddressId id1 = new AddressId("4232", "Hagenberg", "Softwarepark 14");
     private static final AddressId id2 = new AddressId("4232", "Hagenberg", "Softwarepark 105");
     private static final AddressDao dao = new AddressDaoImpl();
+    private static final PersistenceManager mgr = PersistenceManagerFactory.getManager();
 
 
     @BeforeClass
     public static void init() {
-        getFactory();
+        mgr.initFactory();
     }
 
     @AfterClass
     public static void close() {
-        rollback();
-        closeEntityManager();
-        closeFactory();
+        mgr.closeFactory();
     }
 
     @Before
@@ -44,14 +44,9 @@ public class AddressDaoTest {
         tracker.launchIfNecessary(dbSetup);
     }
 
-    @After
-    public void cleanup() throws Exception {
-        rollback();
-    }
-
     @Test
     public void testGetAll() {
-        executeTransaction(() -> {
+        mgr.executeTransaction(() -> {
             List<Address> list = dao.getAll();
             assertEquals(2, list.size());
         });
@@ -60,7 +55,7 @@ public class AddressDaoTest {
 
     @Test
     public void testAdd() {
-        executeTransaction(() -> {
+        mgr.executeTransaction(() -> {
             assertEquals(2, dao.getAll().size());
             Address a = new Address("4232", "Hagenberg", "Softwarepark 12345");
             a = dao.addOrUpdate(a);
@@ -71,12 +66,12 @@ public class AddressDaoTest {
 
     @Test
     public void testGetById() {
-        executeTransaction(() -> assertNotNull(dao.getById(new AddressId("4232", "Hagenberg", "Softwarepark 14"))));
+        mgr.executeTransaction(() -> assertNotNull(dao.getById(new AddressId("4232", "Hagenberg", "Softwarepark 14"))));
     }
 
     @Test
     public void testUpdate() {
-        executeTransaction(() -> {
+        mgr.executeTransaction(() -> {
             Address addr = dao.getById(id1);
             assertNotEquals(addr.getCity(), "NotHagenberg");
             addr.setCity("NotHagenberg");
@@ -88,7 +83,7 @@ public class AddressDaoTest {
 
     @Test
     public void testDelete() {
-        executeTransaction(() -> {
+        mgr.executeTransaction(() -> {
             Address a = dao.getById(id1);
             assertNotNull(a);
             dao.remove(a);
