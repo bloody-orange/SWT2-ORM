@@ -89,8 +89,8 @@ public class DataOperations {
                     .values(103L, 102L, "Drill into wall", DateUtil.getTime(2015, 12, 1, 3, 13), DateUtil.getTime(2015, 12, 1, 18, 13), 102L, 102L, 102L)
                     .values(104L, 102L, "Triggered Alarm", DateUtil.getTime(2015, 12, 2, 5, 30), DateUtil.getTime(2015, 12, 2, 5, 31), 102L, 102L, 103L)
                     .values(105L, 102L, "Run away", DateUtil.getTime(2015, 12, 2, 5, 31), DateUtil.getTime(2015, 12, 2, 5, 58), 103L, 103L, 102L)
-                    .values(106L, 102L, "Get resources", DateUtil.getTime(2016, 1, 3, 15, 20), DateUtil.getTime(2016, 1, 3, 12, 0), 104L, 101L, 105L)
-                    .values(107L, 103L, "Check resources", DateUtil.getTime(2016, 1, 4, 15, 10), DateUtil.getTime(2016, 1, 4, 9, 0), 104L, 102L, 105L)
+                    .values(106L, 102L, "Get resources", DateUtil.getTime(2016, 1, 3, 15, 20), DateUtil.getTime(2016, 1, 4, 12, 0), 104L, 101L, 105L)
+                    .values(107L, 103L, "Check resources", DateUtil.getTime(2016, 1, 4, 15, 10), DateUtil.getTime(2016, 1, 5, 9, 0), 104L, 102L, 105L)
                     .values(108L, 103L, "Work on part 1", DateUtil.getTime(2017, 1, 7, 13, 0), DateUtil.getTime(2017, 1, 17, 15, 0), 105L, 101L, 104L)
                     .values(109L, 102L, "Repair part 2", DateUtil.getTime(2017, 2, 13, 14, 0), DateUtil.getTime(2017, 2, 18, 15, 0), 105L, 103L, 104L)
                     .build();

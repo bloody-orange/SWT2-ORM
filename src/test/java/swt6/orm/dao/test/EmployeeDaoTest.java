@@ -10,19 +10,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import swt6.orm.DataOperations;
-import swt6.orm.dao.AddressDao;
 import swt6.orm.dao.EmployeeDao;
-import swt6.orm.dao.impl.AddressDaoImpl;
 import swt6.orm.dao.impl.EmployeeDaoImpl;
 import swt6.orm.domain.Address;
-import swt6.orm.domain.AddressId;
 import swt6.orm.domain.Employee;
-import swt6.orm.domain.Project;
 import swt6.orm.persistence.PersistenceManager;
 import swt6.orm.persistence.PersistenceManagerFactory;
 import swt6.util.DateUtil;
-
-import java.util.Date;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
@@ -64,20 +58,20 @@ public class EmployeeDaoTest {
     public void testAdd() {
         assertTrue(
                 mgr.executeTransaction(() -> {
-                    assertEquals(3, dao.getAll().size());
+                    assertEquals(3, dao.findAll().size());
                     Employee e = new Employee("goi", "dsfu", DateUtil.getDate(1994, 3, 4));
                     Address a = new Address("4232", "Hagenberg", "Softwarepark 14");
                     e.setAddress(a);
                     e = dao.addOrUpdate(e);
                     assertNotNull(e.getId());
-                    assertEquals(4, dao.getAll().size());
+                    assertEquals(4, dao.findAll().size());
                 }));
     }
 
     @Test
     public void testGetById() {
         assertTrue(
-                mgr.executeTransaction(() -> assertNotNull(dao.getById(id1))));
+                mgr.executeTransaction(() -> assertNotNull(dao.findById(id1))));
     }
 
     @Test
@@ -85,12 +79,12 @@ public class EmployeeDaoTest {
         assertTrue(
                 mgr.executeTransaction(() -> {
                     final String otherName = "OtherName";
-                    Employee empl = dao.getById(id1);
+                    Employee empl = dao.findById(id1);
                     assertNotNull(empl);
                     assertNotEquals(empl.getFirstName(), otherName);
                     empl.setFirstName(otherName);
                     empl = dao.addOrUpdate(empl);
-                    Employee otherEmpl = dao.getById(empl.getId());
+                    Employee otherEmpl = dao.findById(empl.getId());
                     assertEquals(otherEmpl.getFirstName(), otherName);
                 }));
     }
@@ -99,18 +93,18 @@ public class EmployeeDaoTest {
     public void testDelete() {
         assertTrue(
                 mgr.executeTransaction(() -> {
-                    Employee empl = dao.getById(id2);
+                    Employee empl = dao.findById(id2);
                     assertNotNull(empl);
                     empl.removeForeignDependencies();
                     dao.remove(empl);
-                    Employee nullEmpl = dao.getById(id2);
+                    Employee nullEmpl = dao.findById(id2);
                     assertNull(nullEmpl);
 
-                    empl = dao.getById(id3);
+                    empl = dao.findById(id3);
                     assertNotNull(empl);
                     empl.removeForeignDependencies();
                     dao.removeById(id3);
-                    nullEmpl = dao.getById(id3);
+                    nullEmpl = dao.findById(id3);
                     assertNull(nullEmpl);
                 }));
     }

@@ -5,8 +5,12 @@ import swt6.orm.domain.BaseEntity;
 import swt6.orm.persistence.PersistenceManager;
 import swt6.orm.persistence.PersistenceManagerFactory;
 
-import javax.persistence.TypedQuery;
+import java.util.function.Predicate;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class AbstractBaseDao<T extends BaseEntity<IdT>, IdT> implements BaseDao<T, IdT> {
     private final Class<T> entityType;
@@ -26,22 +30,32 @@ public abstract class AbstractBaseDao<T extends BaseEntity<IdT>, IdT> implements
     }
 
     @Override
-    public T getById(IdT id) {
+    public T findById(IdT id) {
         return mgr.find(entityType, id);
     }
 
     @Override
-    public List<T> getAll() {
+    public List<T> findAll() {
         return mgr.query("select e from " + getEntityType().getSimpleName() + " e", getEntityType());
     }
 
     @Override
     public void removeById(IdT id) {
-        remove(getById(id));
+        remove(findById(id));
     }
 
     @Override
     public void remove(T entity) {
         mgr.remove(entity);
+    }
+
+    @Override
+    public List<T> findByPredicate(Predicate<T> pred) {
+        CriteriaBuilder cb = mgr.getCriteriaBuilder();
+        CriteriaQuery<T> issueQry = cb.createQuery(entityType);
+        Root<T> issues = issueQry.from(entityType);
+
+        return mgr.getQuery(issueQry.select(issues))
+                .getResultList().stream().filter(pred).collect(Collectors.toList());
     }
 }

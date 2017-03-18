@@ -3,9 +3,7 @@ package swt6.orm.dao.impl;
 import swt6.orm.dao.IssueDao;
 import swt6.orm.domain.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 public class IssueDaoImpl extends AbstractBaseDao<Issue, Long> implements IssueDao {
@@ -14,15 +12,45 @@ public class IssueDaoImpl extends AbstractBaseDao<Issue, Long> implements IssueD
     }
 
     @Override
-    public List<Issue> findByState(IssueState state) {
+    public List<Issue> findByState(IssueState... states) {
         CriteriaBuilder cb = mgr.getCriteriaBuilder();
-        CriteriaQuery<Issue> issueQry = cb.createQuery(getEntityType());
-        Root<Issue> issues = issueQry.from(getEntityType());
-        return mgr.getQuery(issueQry.select(issues).where(cb.equal(issues.get(Issue_.state), state))).getResultList();
+        CriteriaQuery<Issue> issueQry = cb.createQuery(Issue.class);
+        Root<Issue> issues = issueQry.from(Issue.class);
+        return mgr.getQuery(issueQry
+                        .select(issues)
+                        .where(issues.get(Issue_.state).in((Object[]) states)))
+                .getResultList();
+    }
+
+    @Override
+    public List<Issue> findByEmployee(Employee empl, IssueState... state) {
+        CriteriaBuilder cb = mgr.getCriteriaBuilder();
+        CriteriaQuery<Issue> issueQry = cb.createQuery(Issue.class);
+        Root<Issue> issues = issueQry.from(Issue.class);
+        Join<Issue, Employee> assignee = issues.join(Issue_.assignee);
+
+        Predicate pred = cb.and(
+                issues.get(Issue_.state).in((Object[]) state),
+                cb.equal(assignee.get(Employee_.id), empl.getId()));
+
+        return mgr.getQuery(issueQry
+                        .select(issues)
+                        .where(pred))
+                .getResultList();
     }
 
     @Override
     public List<Issue> findByEmployee(Employee empl) {
-        return null;
+        CriteriaBuilder cb = mgr.getCriteriaBuilder();
+        CriteriaQuery<Issue> issueQry = cb.createQuery(Issue.class);
+        Root<Issue> issues = issueQry.from(Issue.class);
+        Join<Issue, Employee> assignee = issues.join(Issue_.assignee);
+
+        Predicate pred = cb.and(cb.equal(assignee.get(Employee_.id), empl.getId()));
+
+        return mgr.getQuery(issueQry
+                        .select(issues)
+                        .where(pred))
+                .getResultList();
     }
 }

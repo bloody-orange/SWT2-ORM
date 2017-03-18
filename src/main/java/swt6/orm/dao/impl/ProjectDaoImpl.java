@@ -51,7 +51,6 @@ public class ProjectDaoImpl extends AbstractBaseDao<Project, Long> implements Pr
         CriteriaBuilder cb = mgr.getCriteriaBuilder();
         CriteriaQuery<Tuple> projQuery = cb.createQuery(Tuple.class);
         Root<Project> projects = projQuery.from(Project.class);
-        Join<Project, Employee> members = projects.join(Project_.members);
         Join<Project, Issue> issues = projects.join(Project_.issues);
         Join<Issue, LogbookEntry> entries = issues.join(Issue_.entries);
         Join<LogbookEntry, Employee> assignee = entries.join(LogbookEntry_.employee);
@@ -63,7 +62,6 @@ public class ProjectDaoImpl extends AbstractBaseDao<Project, Long> implements Pr
         Predicate where = cb.and(
                 cb.equal(projects.get(Project_.id), project.getId()),
                 cb.equal(assignee.get(Employee_.id), empl.getId()),
-                cb.equal(members.get(Employee_.id), assignee.get(Employee_.id)),
                 issues.get(Issue_.state).in(states)
         );
 

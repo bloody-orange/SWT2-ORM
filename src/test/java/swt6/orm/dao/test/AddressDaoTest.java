@@ -48,7 +48,7 @@ public class AddressDaoTest {
     public void testGetAll() {
         assertTrue(
                 mgr.executeTransaction(() -> {
-                    List<Address> list = dao.getAll();
+                    List<Address> list = dao.findAll();
                     assertEquals(2, list.size());
                 }));
         tracker.skipNextLaunch();
@@ -58,25 +58,25 @@ public class AddressDaoTest {
     public void testAdd() {
         assertTrue(
                 mgr.executeTransaction(() -> {
-                    assertEquals(2, dao.getAll().size());
+                    assertEquals(2, dao.findAll().size());
                     Address a = new Address("4232", "Hagenberg", "Softwarepark 12345");
                     a = dao.addOrUpdate(a);
                     assertNotNull(a.getId());
-                    assertEquals(3, dao.getAll().size());
+                    assertEquals(3, dao.findAll().size());
                 }));
     }
 
     @Test
     public void testGetById() {
         assertTrue(
-                mgr.executeTransaction(() -> assertNotNull(dao.getById(id1))));
+                mgr.executeTransaction(() -> assertNotNull(dao.findById(id1))));
     }
 
     @Test
     public void testUpdate() {
         assertTrue(
                 mgr.executeTransaction(() -> {
-                    Address addr = dao.getById(id1);
+                    Address addr = dao.findById(id1);
                     assertNotNull(addr);
                     assertNotEquals(addr.getCity(), "NotHagenberg");
                     addr.setCity("NotHagenberg");
@@ -89,16 +89,16 @@ public class AddressDaoTest {
     public void testDelete() {
         assertTrue(
                 mgr.executeTransaction(() -> {
-                    Address a = dao.getById(id1);
+                    Address a = dao.findById(id1);
                     assertNotNull(a);
                     dao.remove(a);
-                    Address nullA = dao.getById(id1);
+                    Address nullA = dao.findById(id1);
                     assertNull(nullA);
 
-                    a = dao.getById(id2);
+                    a = dao.findById(id2);
                     assertNotNull(a);
                     dao.removeById(id2);
-                    nullA = dao.getById(id2);
+                    nullA = dao.findById(id2);
                     assertNull(nullA);
                 }));
     }
