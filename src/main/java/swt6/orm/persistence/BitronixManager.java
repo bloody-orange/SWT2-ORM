@@ -9,6 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.NotSupportedException;
 import javax.transaction.Status;
 import javax.transaction.SystemException;
@@ -36,6 +38,7 @@ class BitronixManager implements PersistenceManager {
             return true;
         } catch (Exception e) {
             rollback();
+            e.printStackTrace();
             return false;
         }
     }
@@ -131,6 +134,16 @@ class BitronixManager implements PersistenceManager {
             qry.setParameter(entry.getKey(), entry.getValue());
         }
         return qry.getResultList();
+    }
+
+    @Override
+    public CriteriaBuilder getCriteriaBuilder() {
+        return getManager().getCriteriaBuilder();
+    }
+
+    @Override
+    public <T> TypedQuery<T> getQuery(CriteriaQuery<T> qry) {
+        return getManager().createQuery(qry);
     }
 
     @Override

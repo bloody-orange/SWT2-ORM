@@ -26,4 +26,6 @@ public class EmployeeDaoImpl extends AbstractBaseDao<Employee, Long> implements 
         return mgr.parametrizedQuery(
                 "select e from Employee e join e.projects p where p.id = :id", Employee.class, params);
     }
+
+
 }

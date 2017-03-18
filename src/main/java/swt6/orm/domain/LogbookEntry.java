@@ -24,7 +24,7 @@ public class LogbookEntry implements BaseEntity<Long> {
     @Temporal(TemporalType.TIMESTAMP)
     private Date stopTime;
 
-    // you often need at least the name of the assignee -> eager fetch
+    // you often need at least the name of the writer -> eager fetch
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @Fetch(FetchMode.SELECT)
     private Employee employee;
@@ -36,8 +36,10 @@ public class LogbookEntry implements BaseEntity<Long> {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Module module;
 
-    public LogbookEntry() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Issue issue;
 
+    public LogbookEntry() {
     }
 
     public LogbookEntry(String activity, Date startTime, Date stopTime, Employee employee, Phase phase, Module module) {
@@ -47,6 +49,19 @@ public class LogbookEntry implements BaseEntity<Long> {
         employee.addLogbookEntry(this);
         phase.addLogbookEntry(this);
         module.addLogbookEntry(this);
+    }
+
+    public LogbookEntry(String activity, Date startTime, Date stopTime, Employee employee, Phase phase, Module module, Issue issue) {
+        this(activity, startTime, stopTime, employee, phase, module);
+        issue.addLogbookEntry(this);
+    }
+
+    public Issue getIssue() {
+        return issue;
+    }
+
+    void setIssue(Issue issue) {
+        this.issue = issue;
     }
 
     public Long getId() {
@@ -94,7 +109,7 @@ public class LogbookEntry implements BaseEntity<Long> {
         return phase;
     }
 
-    public void setPhase(Phase phase) {
+    void setPhase(Phase phase) {
         this.phase = phase;
     }
 
@@ -102,7 +117,7 @@ public class LogbookEntry implements BaseEntity<Long> {
         return module;
     }
 
-    public void setModule(Module module) {
+    void setModule(Module module) {
         this.module = module;
     }
 

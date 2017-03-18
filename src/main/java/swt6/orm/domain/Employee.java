@@ -6,6 +6,7 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -50,7 +51,20 @@ public class Employee implements BaseEntity<Long> {
     })
     private Address address;
 
-    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "leader", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH},
+            fetch = FetchType.LAZY)
+    private List<Project> leadingProjects;
+
+    public List<Project> getLeadingProjects() {
+        return leadingProjects;
+    }
+
+    public void setLeadingProjects(List<Project> leadingProjects) {
+        this.leadingProjects = leadingProjects;
+    }
+
+    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private Set<Project> projects = new HashSet<>();
 
     public Employee() {
@@ -129,6 +143,40 @@ public class Employee implements BaseEntity<Long> {
 
         this.logbookEntries.add(entry);
         entry.setEmployee(this);
+    }
+
+    public void addLeadingProject(Project project) {
+        if (project == null) {
+            throw new IllegalStateException("LogbookEntry was null");
+        }
+
+        if (project.getLeader() != null) {
+            project.getLeader().removeLeadingProject(project);
+        }
+
+        this.leadingProjects.add(project);
+        project.setLeader(this);
+    }
+
+    public void removeLeadingProject(Project project) {
+        if (project == null) {
+            throw new IllegalStateException("LogbookEntry was null");
+        }
+
+        if (project.getLeader() == this) {
+            project.setLeader(null);
+            this.leadingProjects.remove(project);
+        }
+    }
+
+    public void removeForeignDependencies() {
+        while (this.getProjects().size() > 0) {
+            this.getProjects().iterator().next().removeMember(this);
+        }
+
+        while (this.getLeadingProjects().size() > 0) {
+            this.removeLeadingProject(this.getLeadingProjects().iterator().next());
+        }
     }
 
     public Set<Project> getProjects() {

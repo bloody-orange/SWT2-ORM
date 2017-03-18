@@ -16,9 +16,9 @@ public class Project implements BaseEntity<Long> {
     @ManyToMany
     @JoinTable(name = "ProjectEmployee",
             joinColumns = {
-                @JoinColumn(name = "projectId")},
+                @JoinColumn(name = "projectId", referencedColumnName="id")},
             inverseJoinColumns = {
-                @JoinColumn(name = "employeeId")})
+                @JoinColumn(name = "employeeId", referencedColumnName="id")})
     private Set<Employee> members = new HashSet<>();
 
     @ManyToOne
@@ -28,7 +28,7 @@ public class Project implements BaseEntity<Long> {
     @OneToMany(mappedBy = "project")
     private Set<Module> modules;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private Set<Issue> issues;
 
     public Set<Issue> getIssues() {

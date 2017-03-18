@@ -5,6 +5,7 @@ import swt6.orm.domain.BaseEntity;
 import swt6.orm.persistence.PersistenceManager;
 import swt6.orm.persistence.PersistenceManagerFactory;
 
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public abstract class AbstractBaseDao<T extends BaseEntity<IdT>, IdT> implements BaseDao<T, IdT> {

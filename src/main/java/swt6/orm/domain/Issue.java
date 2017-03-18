@@ -5,6 +5,7 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 @Entity
 public class Issue implements BaseEntity<Long> {
@@ -36,6 +37,9 @@ public class Issue implements BaseEntity<Long> {
     @Fetch(FetchMode.JOIN)
     private Project project;
 
+    @OneToMany(mappedBy = "issue", fetch = FetchType.LAZY)
+    private Set<LogbookEntry> entries;
+
     public Issue() {
     }
 
@@ -48,9 +52,30 @@ public class Issue implements BaseEntity<Long> {
         this.estimatedMinutes = estimatedMinutes;
     }
 
+    public Set<LogbookEntry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(Set<LogbookEntry> entries) {
+        this.entries = entries;
+    }
+
     public Long getId() {
 
         return id;
+    }
+
+    public void addLogbookEntry(LogbookEntry entry) {
+        if (entry == null) {
+            throw new IllegalStateException("LogbookEntry was null");
+        }
+
+        if (entry.getIssue() != null) {
+            entry.getIssue().getEntries().remove(entry);
+        }
+
+        this.entries.add(entry);
+        entry.setIssue(this);
     }
 
     public String getDescription() {
@@ -119,9 +144,9 @@ public class Issue implements BaseEntity<Long> {
     @Override
     public String toString() {
         String s = "";
-        s += "Issue #" + id + ": " + description + ".\n";
+        s += "Issue #" + id + ": " + description + ". ";
         if (assignee != null) {
-            s += "  Assignee: " + assignee.getFirstName() + " " + assignee.getLastName();
+            s += "Assignee: " + assignee.getFirstName() + " " + assignee.getLastName();
         }
         s += "  Estimated time left: " + estimatedMinutes + " minutes.\n" +
                 "  State: " + state + ". Priority: " + priority;

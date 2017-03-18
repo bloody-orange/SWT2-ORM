@@ -81,8 +81,7 @@ public class AddressDaoTest {
                     assertNotEquals(addr.getCity(), "NotHagenberg");
                     addr.setCity("NotHagenberg");
                     addr = dao.addOrUpdate(addr);
-                    Address newA = dao.getById(addr.getId());
-                    assertEquals(newA.getCity(), "NotHagenberg");
+                    assertEquals(addr.getCity(), "NotHagenberg");
                 }));
     }
 
