@@ -70,4 +70,9 @@ public class Module implements BaseEntity<Long> {
     public void setLogbookEntries(Set<LogbookEntry> entries) {
         this.logbookEntries = entries;
     }
+
+    @Override
+    public String toString() {
+        return "Module [" + id + "]: " + name;
+    }
 }

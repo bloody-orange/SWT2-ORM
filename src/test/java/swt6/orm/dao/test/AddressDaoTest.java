@@ -46,55 +46,61 @@ public class AddressDaoTest {
 
     @Test
     public void testGetAll() {
-        mgr.executeTransaction(() -> {
-            List<Address> list = dao.getAll();
-            assertEquals(2, list.size());
-        });
+        assertTrue(
+                mgr.executeTransaction(() -> {
+                    List<Address> list = dao.getAll();
+                    assertEquals(2, list.size());
+                }));
         tracker.skipNextLaunch();
     }
 
     @Test
     public void testAdd() {
-        mgr.executeTransaction(() -> {
-            assertEquals(2, dao.getAll().size());
-            Address a = new Address("4232", "Hagenberg", "Softwarepark 12345");
-            a = dao.addOrUpdate(a);
-            assertNotNull(a.getId());
-            assertEquals(3, dao.getAll().size());
-        });
+        assertTrue(
+                mgr.executeTransaction(() -> {
+                    assertEquals(2, dao.getAll().size());
+                    Address a = new Address("4232", "Hagenberg", "Softwarepark 12345");
+                    a = dao.addOrUpdate(a);
+                    assertNotNull(a.getId());
+                    assertEquals(3, dao.getAll().size());
+                }));
     }
 
     @Test
     public void testGetById() {
-        mgr.executeTransaction(() -> assertNotNull(dao.getById(new AddressId("4232", "Hagenberg", "Softwarepark 14"))));
+        assertTrue(
+                mgr.executeTransaction(() -> assertNotNull(dao.getById(id1))));
     }
 
     @Test
     public void testUpdate() {
-        mgr.executeTransaction(() -> {
-            Address addr = dao.getById(id1);
-            assertNotEquals(addr.getCity(), "NotHagenberg");
-            addr.setCity("NotHagenberg");
-            addr = dao.addOrUpdate(addr);
-            Address newA = dao.getById(addr.getId());
-            assertEquals(newA.getCity(), "NotHagenberg");
-        });
+        assertTrue(
+                mgr.executeTransaction(() -> {
+                    Address addr = dao.getById(id1);
+                    assertNotNull(addr);
+                    assertNotEquals(addr.getCity(), "NotHagenberg");
+                    addr.setCity("NotHagenberg");
+                    addr = dao.addOrUpdate(addr);
+                    Address newA = dao.getById(addr.getId());
+                    assertEquals(newA.getCity(), "NotHagenberg");
+                }));
     }
 
     @Test
     public void testDelete() {
-        mgr.executeTransaction(() -> {
-            Address a = dao.getById(id1);
-            assertNotNull(a);
-            dao.remove(a);
-            Address nullA = dao.getById(id1);
-            assertNull(nullA);
+        assertTrue(
+                mgr.executeTransaction(() -> {
+                    Address a = dao.getById(id1);
+                    assertNotNull(a);
+                    dao.remove(a);
+                    Address nullA = dao.getById(id1);
+                    assertNull(nullA);
 
-            a = dao.getById(id2);
-            assertNotNull(a);
-            dao.removeById(id2);
-            nullA = dao.getById(id2);
-            assertNull(nullA);
-        });
+                    a = dao.getById(id2);
+                    assertNotNull(a);
+                    dao.removeById(id2);
+                    nullA = dao.getById(id2);
+                    assertNull(nullA);
+                }));
     }
 }

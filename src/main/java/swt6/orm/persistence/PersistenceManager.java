@@ -17,6 +17,5 @@ public interface PersistenceManager {
     <T extends BaseEntity> void persist(T entity);
     <T extends BaseEntity<IdT>, IdT> T find(Class<T> entityType, IdT id);
     <T extends BaseEntity> List<T> query(String query, Class<T> entityType);
-
     <T extends BaseEntity> List<T> parametrizedQuery(String query, Class<T> entityType, Map<String, Object> params);
 }
