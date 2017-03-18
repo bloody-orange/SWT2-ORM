@@ -1,5 +1,8 @@
 package swt6.orm.bitronix;
 
+import com.ninja_squad.dbsetup.DbSetup;
+import com.ninja_squad.dbsetup.destination.DriverManagerDestination;
+import swt6.orm.DataOperations;
 import swt6.orm.dao.*;
 import swt6.orm.dao.impl.*;
 import swt6.orm.domain.*;
@@ -13,45 +16,36 @@ public class BTMWorkLogManager {
     public static void main(String[] args) {
         try {
             mgr.initFactory();
-            addEntities();
+            new DbSetup(new DriverManagerDestination("jdbc:derby://localhost:1527/worklogdb;create=true",
+                            "app", "derby"), DataOperations.DELETE_INSERT_ALL)
+                    .launch();
+
         } finally {
             mgr.closeFactory();
         }
     }
 
     private static void addEntities() {
-        mgr.executeTransaction(() -> {
-            EmployeeDao emplDao = new EmployeeDaoImpl();
-            Employee e1 = emplDao.addOrUpdate(new Employee("Hans",
-                    "Goldner", DateUtil.getDate(1995, 3, 5)));
-            Employee e2 = emplDao.addOrUpdate(new PermanentEmployee("Herbert",
-                    "Maier", DateUtil.getDate(1993, 1, 5), 21.5));
-            Employee e3 = emplDao.addOrUpdate(new TemporaryEmployee("Gerti",
-                    "Müller", DateUtil.getDate(1994, 3, 15), "Amazing Workers Corp", 23.4,
-                    DateUtil.getDate(2016, 3, 5), DateUtil.getDate(2017, 12, 4)));
+        markTransactionStart("Create employees");
 
-            AddressDao aDao = new AddressDaoImpl();
-            Address a1 = aDao.addOrUpdate(new Address("4232", "Hagenberg", "Softwarepark 14"));
-            Address a2 = aDao.addOrUpdate(new Address("4232", "Hagenberg", "Radler Straße 15"));
+        markTransactionEnd();
+    }
 
-            e1.setAddress(a1);
-            e2.setAddress(a2);
-            e3.setAddress(a1);
+    private static void markTransactionStart(String name) {
+        System.out.println("!--------------     TRANSACTION START     --------------!");
+        String leftIndent = "";
+        String rightIndent = "";
+        for (int i = 0; i < (25 - name.length()) / 2; ++i) {
+            leftIndent += " ";
+        }
+        for (int i = 0; i < (26 - name.length()) / 2; ++i) {
+            rightIndent += " ";
+        }
 
-            ProjectDao projDao = new ProjectDaoImpl();
-            Project p1 = projDao.addOrUpdate(new Project("Mission Impossible", e1));
-            Project p2 = projDao.addOrUpdate(new Project("Space elevator", e2));
+        System.out.println("!-------------- " + leftIndent + name.toUpperCase() + rightIndent + " --------------!");
+    }
 
-            ModuleDao modDao = new ModuleDaoImpl();
-            Module mod1 = modDao.addOrUpdate(new Module("Break into Mansion", p1));
-            Module mod2 = modDao.addOrUpdate(new Module("Sneak through ventilation shaft", p1));
-            Module mod3 = modDao.addOrUpdate(new Module("Build elevator", p2));
-            Module mod4 = modDao.addOrUpdate(new Module("Profit", p2));
-
-            PhaseDao phaseDao = new PhaseDaoImpl();
-            Phase phase1 = phaseDao.addOrUpdate(new Phase("Implementation"));
-            Phase phase2 = phaseDao.addOrUpdate(new Phase("Testing"));
-            Phase phase3 = phaseDao.addOrUpdate(new Phase("Maintenance"));
-        });
+    private static void markTransactionEnd() {
+        System.out.println("!--------------      TRANSACTION END      --------------!");
     }
 }

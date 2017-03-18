@@ -88,4 +88,15 @@ public class Address implements BaseEntity<AddressId> {
     public String toString() {
         return id.toString();
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return this == other ||
+                other instanceof Address && this.getId().equals(((Address) other).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

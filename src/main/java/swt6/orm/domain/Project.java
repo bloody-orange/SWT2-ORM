@@ -141,6 +141,6 @@ public class Project implements BaseEntity<Long> {
     }
 
     public String toString() {
-        return name;
+        return "Project [" + id + "]: " + name;
     }
 }

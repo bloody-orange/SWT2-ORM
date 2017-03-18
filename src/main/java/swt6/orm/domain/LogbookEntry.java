@@ -111,7 +111,7 @@ public class LogbookEntry implements BaseEntity<Long> {
         DateFormat format = DateFormat.getDateTimeInstance();
 
         return String.format(
-                "[%d] %s [%s, %s] (employee: %s)",
+                "Entry [%d]: %s [%s, %s] (employee: %s)",
                 id,
                 activity,
                 format.format(startTime),

@@ -61,4 +61,6 @@ public class Phase implements BaseEntity<Long> {
         this.logbookEntries.add(entry);
         entry.setPhase(this);
     }
+
+
 }

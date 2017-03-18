@@ -4,6 +4,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.PriorityQueue;
 
 @Entity
 public class Issue implements BaseEntity<Long> {
@@ -113,5 +114,18 @@ public class Issue implements BaseEntity<Long> {
             throw new IllegalArgumentException("percentage out of bounds");
         }
         this.percentageDone = percentageDone;
+    }
+
+    @Override
+    public String toString() {
+        String s = "";
+        s += "Issue #" + id + ": " + description + ".\n";
+        if (assignee != null) {
+            s += "  Assignee: " + assignee.getFirstName() + " " + assignee.getLastName();
+        }
+        s += "  Estimated time left: " + estimatedMinutes + " minutes.\n" +
+                "  State: " + state + ". Priority: " + priority;
+
+        return s;
     }
 }
