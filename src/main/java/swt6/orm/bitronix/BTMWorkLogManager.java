@@ -19,9 +19,9 @@ public class BTMWorkLogManager {
     public static void main(String[] args) {
         try {
             mgr.initFactory();
-/*
+
             DbSetupUtil.getDbSetup(DataOperations.DELETE_INSERT_ALL)
-                    .launch();*/
+                    .launch();
 
             printTitle("<< WORKFLOWS >>");
             testIssue();
@@ -34,8 +34,8 @@ public class BTMWorkLogManager {
             findTimeWorkedOnProject();
             findIssuesForEmployee();
             findTimePerPhase();
-       // } catch (IOException e) {
-         //   e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
             mgr.closeFactory();
         }
