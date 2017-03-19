@@ -28,7 +28,7 @@
 			<property name="connection_pool_size" value="1"/>
 
 			<property name="hibernate.hbm2ddl.auto" value="create" />
-			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
 		</properties>
 	</persistence-unit>
 

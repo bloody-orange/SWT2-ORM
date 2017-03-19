@@ -40,7 +40,7 @@
       <DataType>VARCHAR(255)|12</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="26" parent="13" name="SQL170318183240990">
+    <key id="26" parent="13" name="SQL170319150435780">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>CITY
 STREET
@@ -77,318 +77,304 @@ ZIPCODE</ColNames>
       <Position>7</Position>
       <DataType>VARCHAR(255)|12</DataType>
     </column>
-    <index id="34" parent="14" name="SQL170318183241210">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>CITY
-STREET
-ZIPCODE</ColNames>
-    </index>
-    <key id="35" parent="14" name="SQL170318183241020">
+    <key id="34" parent="14" name="SQL170319150435800">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="36" parent="14" name="FK77NRFATCKQHF0IFLG2FTKOVQH">
-      <ColNames>ZIPCODE</ColNames>
-      <RefSchemaName>APP</RefSchemaName>
-      <RefTableName>ADDRESS</RefTableName>
-      <RefColNames>ZIPCODE</RefColNames>
-      <OnDelete>no-action</OnDelete>
-      <OnUpdate>no-action</OnUpdate>
-    </foreign-key>
-    <column id="37" parent="15" name="ID">
+    <column id="35" parent="15" name="ID">
       <Position>1</Position>
       <DataType>BIGINT(19)|-5</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="38" parent="15" name="DESCRIPTION">
+    <column id="36" parent="15" name="DESCRIPTION">
       <Position>2</Position>
       <DataType>VARCHAR(1000)|12</DataType>
     </column>
-    <column id="39" parent="15" name="ESTIMATEDMINUTES">
+    <column id="37" parent="15" name="ESTIMATEDMINUTES">
       <Position>3</Position>
       <DataType>INTEGER(10)|4</DataType>
     </column>
-    <column id="40" parent="15" name="PERCENTAGEDONE">
+    <column id="38" parent="15" name="PERCENTAGEDONE">
       <Position>4</Position>
       <DataType>INTEGER(10)|4</DataType>
     </column>
-    <column id="41" parent="15" name="PRIORITY">
+    <column id="39" parent="15" name="PRIORITY">
       <Position>5</Position>
       <DataType>INTEGER(10)|4</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="42" parent="15" name="STATE">
+    <column id="40" parent="15" name="STATE">
       <Position>6</Position>
       <DataType>INTEGER(10)|4</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="43" parent="15" name="ASSIGNEE_ID">
+    <column id="41" parent="15" name="ASSIGNEE_ID">
       <Position>7</Position>
       <DataType>BIGINT(19)|-5</DataType>
     </column>
-    <column id="44" parent="15" name="PROJECT_ID">
+    <column id="42" parent="15" name="PROJECT_ID">
       <Position>8</Position>
       <DataType>BIGINT(19)|-5</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="45" parent="15" name="SQL170318183241040">
+    <key id="43" parent="15" name="SQL170319150435820">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="46" parent="15" name="FK4C9GJUO9F53N1PJC6FCL30T37">
+    <foreign-key id="44" parent="15" name="FK4C9GJUO9F53N1PJC6FCL30T37">
       <ColNames>ASSIGNEE_ID</ColNames>
       <RefSchemaName>APP</RefSchemaName>
       <RefTableName>EMPLOYEE</RefTableName>
-      <RefKeyName>SQL170318183241020</RefKeyName>
+      <RefKeyName>SQL170319150435800</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>no-action</OnDelete>
       <OnUpdate>no-action</OnUpdate>
     </foreign-key>
-    <foreign-key id="47" parent="15" name="FKLBHM6G2AL5IWRTD2R2FRP8QCJ">
+    <foreign-key id="45" parent="15" name="FKLBHM6G2AL5IWRTD2R2FRP8QCJ">
       <ColNames>PROJECT_ID</ColNames>
       <RefSchemaName>APP</RefSchemaName>
       <RefTableName>PROJECT</RefTableName>
-      <RefKeyName>SQL170318183241140</RefKeyName>
+      <RefKeyName>SQL170319150435910</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>no-action</OnDelete>
       <OnUpdate>no-action</OnUpdate>
     </foreign-key>
-    <column id="48" parent="16" name="ID">
+    <column id="46" parent="16" name="ID">
       <Position>1</Position>
       <DataType>BIGINT(19)|-5</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="49" parent="16" name="ACTIVITY">
+    <column id="47" parent="16" name="ACTIVITY">
       <Position>2</Position>
       <DataType>VARCHAR(255)|12</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="50" parent="16" name="STARTTIME">
+    <column id="48" parent="16" name="STARTTIME">
       <Position>3</Position>
       <DataType>TIMESTAMP(29,9)|93</DataType>
     </column>
-    <column id="51" parent="16" name="STOPTIME">
+    <column id="49" parent="16" name="STOPTIME">
       <Position>4</Position>
       <DataType>TIMESTAMP(29,9)|93</DataType>
     </column>
-    <column id="52" parent="16" name="EMPLOYEE_ID">
+    <column id="50" parent="16" name="EMPLOYEE_ID">
       <Position>5</Position>
       <DataType>BIGINT(19)|-5</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="53" parent="16" name="ISSUE_ID">
+    <column id="51" parent="16" name="ISSUE_ID">
       <Position>6</Position>
       <DataType>BIGINT(19)|-5</DataType>
     </column>
-    <column id="54" parent="16" name="MODULE_ID">
+    <column id="52" parent="16" name="MODULE_ID">
       <Position>7</Position>
       <DataType>BIGINT(19)|-5</DataType>
-      <NotNull>1</NotNull>
     </column>
-    <column id="55" parent="16" name="PHASE_ID">
+    <column id="53" parent="16" name="PHASE_ID">
       <Position>8</Position>
       <DataType>BIGINT(19)|-5</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="56" parent="16" name="SQL170318183241060">
+    <key id="54" parent="16" name="SQL170319150435830">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="57" parent="16" name="FK375U29UUP72HX3B91FF2BBMIB">
+    <foreign-key id="55" parent="16" name="FK375U29UUP72HX3B91FF2BBMIB">
       <ColNames>EMPLOYEE_ID</ColNames>
       <RefSchemaName>APP</RefSchemaName>
       <RefTableName>EMPLOYEE</RefTableName>
-      <RefKeyName>SQL170318183241020</RefKeyName>
+      <RefKeyName>SQL170319150435800</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>no-action</OnDelete>
       <OnUpdate>no-action</OnUpdate>
     </foreign-key>
-    <foreign-key id="58" parent="16" name="FK71V6KXVGNSN8G6P21QIQY1VQC">
+    <foreign-key id="56" parent="16" name="FK71V6KXVGNSN8G6P21QIQY1VQC">
       <ColNames>ISSUE_ID</ColNames>
       <RefSchemaName>APP</RefSchemaName>
       <RefTableName>ISSUE</RefTableName>
-      <RefKeyName>SQL170318183241040</RefKeyName>
+      <RefKeyName>SQL170319150435820</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>no-action</OnDelete>
       <OnUpdate>no-action</OnUpdate>
     </foreign-key>
-    <foreign-key id="59" parent="16" name="FK7AVI66K2NR7GH5R8AVJ8H0K70">
+    <foreign-key id="57" parent="16" name="FK7AVI66K2NR7GH5R8AVJ8H0K70">
       <ColNames>MODULE_ID</ColNames>
       <RefSchemaName>APP</RefSchemaName>
       <RefTableName>MODULE</RefTableName>
-      <RefKeyName>SQL170318183241080</RefKeyName>
+      <RefKeyName>SQL170319150435850</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>no-action</OnDelete>
       <OnUpdate>no-action</OnUpdate>
     </foreign-key>
-    <foreign-key id="60" parent="16" name="FKQ3VVF48HLPJ0EYG08ISI4D780">
+    <foreign-key id="58" parent="16" name="FKQ3VVF48HLPJ0EYG08ISI4D780">
       <ColNames>PHASE_ID</ColNames>
       <RefSchemaName>APP</RefSchemaName>
       <RefTableName>PHASE</RefTableName>
-      <RefKeyName>SQL170318183241120</RefKeyName>
+      <RefKeyName>SQL170319150435890</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>no-action</OnDelete>
       <OnUpdate>no-action</OnUpdate>
     </foreign-key>
-    <column id="61" parent="17" name="ID">
+    <column id="59" parent="17" name="ID">
       <Position>1</Position>
       <DataType>BIGINT(19)|-5</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="62" parent="17" name="NAME">
+    <column id="60" parent="17" name="NAME">
       <Position>2</Position>
       <DataType>VARCHAR(50)|12</DataType>
     </column>
-    <column id="63" parent="17" name="PROJECT_ID">
+    <column id="61" parent="17" name="PROJECT_ID">
       <Position>3</Position>
       <DataType>BIGINT(19)|-5</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <key id="64" parent="17" name="SQL170318183241080">
+    <key id="62" parent="17" name="SQL170319150435850">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="65" parent="17" name="FK9O4LK9UV1G00HD9LFQM86BYEH">
+    <foreign-key id="63" parent="17" name="FK9O4LK9UV1G00HD9LFQM86BYEH">
       <ColNames>PROJECT_ID</ColNames>
       <RefSchemaName>APP</RefSchemaName>
       <RefTableName>PROJECT</RefTableName>
-      <RefKeyName>SQL170318183241140</RefKeyName>
+      <RefKeyName>SQL170319150435910</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>no-action</OnDelete>
       <OnUpdate>no-action</OnUpdate>
     </foreign-key>
-    <column id="66" parent="18" name="SALARY">
+    <column id="64" parent="18" name="SALARY">
       <Position>1</Position>
       <DataType>DOUBLE(52)|8</DataType>
     </column>
-    <column id="67" parent="18" name="ID">
+    <column id="65" parent="18" name="ID">
       <Position>2</Position>
       <DataType>BIGINT(19)|-5</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="68" parent="18" name="SQL170318183241100">
+    <key id="66" parent="18" name="SQL170319150435870">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="69" parent="18" name="FK1LD26EC4MW1M6G93M6ULGRJ3M">
+    <foreign-key id="67" parent="18" name="FK1LD26EC4MW1M6G93M6ULGRJ3M">
       <ColNames>ID</ColNames>
       <RefSchemaName>APP</RefSchemaName>
       <RefTableName>EMPLOYEE</RefTableName>
-      <RefKeyName>SQL170318183241020</RefKeyName>
+      <RefKeyName>SQL170319150435800</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>no-action</OnDelete>
       <OnUpdate>no-action</OnUpdate>
     </foreign-key>
-    <column id="70" parent="19" name="ID">
+    <column id="68" parent="19" name="ID">
       <Position>1</Position>
       <DataType>BIGINT(19)|-5</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="71" parent="19" name="NAME">
+    <column id="69" parent="19" name="NAME">
       <Position>2</Position>
       <DataType>VARCHAR(255)|12</DataType>
     </column>
-    <key id="72" parent="19" name="SQL170318183241120">
+    <key id="70" parent="19" name="SQL170319150435890">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="73" parent="20" name="ID">
+    <column id="71" parent="20" name="ID">
       <Position>1</Position>
       <DataType>BIGINT(19)|-5</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="74" parent="20" name="NAME">
+    <column id="72" parent="20" name="NAME">
       <Position>2</Position>
       <DataType>VARCHAR(255)|12</DataType>
     </column>
-    <column id="75" parent="20" name="LEADERID">
+    <column id="73" parent="20" name="LEADERID">
       <Position>3</Position>
       <DataType>BIGINT(19)|-5</DataType>
     </column>
-    <key id="76" parent="20" name="SQL170318183241140">
+    <key id="74" parent="20" name="SQL170319150435910">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="77" parent="20" name="FKA4F9F3KGA2GF1CTSSP813QV8R">
+    <foreign-key id="75" parent="20" name="FKA4F9F3KGA2GF1CTSSP813QV8R">
       <ColNames>LEADERID</ColNames>
       <RefSchemaName>APP</RefSchemaName>
       <RefTableName>EMPLOYEE</RefTableName>
-      <RefKeyName>SQL170318183241020</RefKeyName>
+      <RefKeyName>SQL170319150435800</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>no-action</OnDelete>
       <OnUpdate>no-action</OnUpdate>
     </foreign-key>
-    <column id="78" parent="21" name="PROJECTID">
+    <column id="76" parent="21" name="PROJECTID">
       <Position>1</Position>
       <DataType>BIGINT(19)|-5</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="79" parent="21" name="EMPLOYEEID">
+    <column id="77" parent="21" name="EMPLOYEEID">
       <Position>2</Position>
       <DataType>BIGINT(19)|-5</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="80" parent="21" name="SQL170318183241160">
+    <key id="78" parent="21" name="SQL170319150435930">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>PROJECTID
 EMPLOYEEID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="81" parent="21" name="FKT7G8J8L16F57NMBAAWX09MM6E">
+    <foreign-key id="79" parent="21" name="FKT7G8J8L16F57NMBAAWX09MM6E">
       <ColNames>PROJECTID</ColNames>
       <RefSchemaName>APP</RefSchemaName>
       <RefTableName>PROJECT</RefTableName>
-      <RefKeyName>SQL170318183241140</RefKeyName>
+      <RefKeyName>SQL170319150435910</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>no-action</OnDelete>
       <OnUpdate>no-action</OnUpdate>
     </foreign-key>
-    <foreign-key id="82" parent="21" name="FKSC64LV12GPC9YOG95M4S1VEUM">
+    <foreign-key id="80" parent="21" name="FKSC64LV12GPC9YOG95M4S1VEUM">
       <ColNames>EMPLOYEEID</ColNames>
       <RefSchemaName>APP</RefSchemaName>
       <RefTableName>EMPLOYEE</RefTableName>
-      <RefKeyName>SQL170318183241020</RefKeyName>
+      <RefKeyName>SQL170319150435800</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>no-action</OnDelete>
       <OnUpdate>no-action</OnUpdate>
     </foreign-key>
-    <column id="83" parent="22" name="ENDDATE">
+    <column id="81" parent="22" name="ENDDATE">
       <Position>1</Position>
       <DataType>DATE(10)|91</DataType>
     </column>
-    <column id="84" parent="22" name="HOURLYRATE">
+    <column id="82" parent="22" name="HOURLYRATE">
       <Position>2</Position>
       <DataType>DOUBLE(52)|8</DataType>
     </column>
-    <column id="85" parent="22" name="RENTER">
+    <column id="83" parent="22" name="RENTER">
       <Position>3</Position>
       <DataType>VARCHAR(255)|12</DataType>
     </column>
-    <column id="86" parent="22" name="STARTDATE">
+    <column id="84" parent="22" name="STARTDATE">
       <Position>4</Position>
       <DataType>DATE(10)|91</DataType>
     </column>
-    <column id="87" parent="22" name="ID">
+    <column id="85" parent="22" name="ID">
       <Position>5</Position>
       <DataType>BIGINT(19)|-5</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="88" parent="22" name="SQL170318183241180">
+    <key id="86" parent="22" name="SQL170319150435940">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="89" parent="22" name="FK681MCSHOQFAGNER4B5T91S5W0">
+    <foreign-key id="87" parent="22" name="FK681MCSHOQFAGNER4B5T91S5W0">
       <ColNames>ID</ColNames>
       <RefSchemaName>APP</RefSchemaName>
       <RefTableName>EMPLOYEE</RefTableName>
-      <RefKeyName>SQL170318183241020</RefKeyName>
+      <RefKeyName>SQL170319150435800</RefKeyName>
       <RefColNames>ID</RefColNames>
       <OnDelete>no-action</OnDelete>
       <OnUpdate>no-action</OnUpdate>
