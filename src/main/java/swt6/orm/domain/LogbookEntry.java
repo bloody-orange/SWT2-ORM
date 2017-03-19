@@ -68,6 +68,14 @@ public class LogbookEntry implements BaseEntity<Long> {
         return id;
     }
 
+    @Override
+    public void removeDependencies() {
+        employee.getLogbookEntries().remove(this);
+        phase.getEntries().remove(this);
+        module.getEntries().remove(this);
+        issue.getEntries().remove(this);
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -126,11 +134,12 @@ public class LogbookEntry implements BaseEntity<Long> {
         DateFormat format = DateFormat.getDateTimeInstance();
 
         return String.format(
-                "Entry [%d]: %s [%s, %s] (employee: %s)",
+                "Entry [%d]: %s [%s, %s] (employee: %s) (issue: #%s)",
                 id,
                 activity,
                 format.format(startTime),
                 format.format(stopTime),
-                employee == null ? "<null>" : employee.getLastName());
+                employee == null ? "<null>" : employee.getLastName(),
+                issue == null ? "<null>" : issue.getId());
     }
 }

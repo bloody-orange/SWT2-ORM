@@ -15,7 +15,7 @@ public class Phase implements BaseEntity<Long> {
     private String name;
 
     @OneToMany(mappedBy = "phase")
-    private Set<LogbookEntry> logbookEntries = new HashSet<>();
+    private Set<LogbookEntry> entries = new HashSet<>();
 
     public Phase() {
     }
@@ -27,6 +27,13 @@ public class Phase implements BaseEntity<Long> {
     public Long getId() {
 
         return id;
+    }
+
+    @Override
+    public void removeDependencies() {
+        while (this.getEntries().size() > 0) {
+            this.removeLogbookEntry(this.getEntries().iterator().next());
+        }
     }
 
     public void setId(Long id) {
@@ -41,12 +48,12 @@ public class Phase implements BaseEntity<Long> {
         this.name = name;
     }
 
-    public Set<LogbookEntry> getLogbookEntries() {
-        return logbookEntries;
+    public Set<LogbookEntry> getEntries() {
+        return entries;
     }
 
-    public void setLogbookEntries(Set<LogbookEntry> logbookEntries) {
-        this.logbookEntries = logbookEntries;
+    public void setEntries(Set<LogbookEntry> logbookEntries) {
+        this.entries = logbookEntries;
     }
 
     public void addLogbookEntry(LogbookEntry entry) {
@@ -55,12 +62,20 @@ public class Phase implements BaseEntity<Long> {
         }
 
         if (entry.getPhase() != null) {
-            entry.getPhase().getLogbookEntries().remove(entry);
+            entry.getPhase().getEntries().remove(entry);
         }
 
-        this.logbookEntries.add(entry);
+        this.entries.add(entry);
         entry.setPhase(this);
     }
 
-
+    public void removeLogbookEntry(LogbookEntry entry) {
+        if (entry == null) {
+            throw new IllegalStateException("LogbookEntry was null");
+        }
+        if (entry.getPhase() == this) {
+            entry.setPhase(null);
+            this.entries.remove(entry);
+        }
+    }
 }

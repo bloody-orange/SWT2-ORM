@@ -45,6 +45,13 @@ public class Address implements BaseEntity<AddressId> {
         return id;
     }
 
+    @Override
+    public void removeDependencies() {
+        while (this.getInhabitants().size() > 0) {
+            this.removeInhabitant(this.getInhabitants().iterator().next());
+        }
+    }
+
     public void setId(AddressId addressId) {
         this.id = addressId;
     }

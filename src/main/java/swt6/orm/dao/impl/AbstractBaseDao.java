@@ -46,16 +46,17 @@ public abstract class AbstractBaseDao<T extends BaseEntity<IdT>, IdT> implements
 
     @Override
     public void remove(T entity) {
+        entity.removeDependencies();
         mgr.remove(entity);
     }
 
     @Override
     public List<T> findByPredicate(Predicate<T> pred) {
         CriteriaBuilder cb = mgr.getCriteriaBuilder();
-        CriteriaQuery<T> issueQry = cb.createQuery(entityType);
-        Root<T> issues = issueQry.from(entityType);
+        CriteriaQuery<T> qry = cb.createQuery(entityType);
+        Root<T> entities = qry.from(entityType);
 
-        return mgr.getQuery(issueQry.select(issues))
+        return mgr.getQuery(qry.select(entities))
                 .getResultList().stream().filter(pred).collect(Collectors.toList());
     }
 }

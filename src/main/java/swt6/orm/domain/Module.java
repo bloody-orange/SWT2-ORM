@@ -16,7 +16,7 @@ public class Module implements BaseEntity<Long> {
     private Project project;
 
     @OneToMany(mappedBy = "module")
-    private Set<LogbookEntry> logbookEntries = new HashSet<>();
+    private Set<LogbookEntry> entries = new HashSet<>();
 
     public Module(String name, Project project) {
         this.name = name;
@@ -28,6 +28,15 @@ public class Module implements BaseEntity<Long> {
 
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public void removeDependencies() {
+        while (this.getEntries().size() > 0) {
+            this.removeLogbookEntry(this.getEntries().iterator().next());
+        }
+
+        project.getModules().remove(this);
     }
 
     public void setId(Long id) {
@@ -48,11 +57,21 @@ public class Module implements BaseEntity<Long> {
         }
 
         if (entry.getModule() != null) {
-            entry.getModule().getLogbookEntries().remove(entry);
+            entry.getModule().getEntries().remove(entry);
         }
 
-        this.logbookEntries.add(entry);
+        this.entries.add(entry);
         entry.setModule(this);
+    }
+
+    public void removeLogbookEntry(LogbookEntry entry) {
+        if (entry == null) {
+            throw new IllegalStateException("LogbookEntry was null");
+        }
+        if (entry.getModule() == this) {
+            entry.setModule(null);
+            this.entries.remove(entry);
+        }
     }
 
     public Project getProject() {
@@ -63,12 +82,12 @@ public class Module implements BaseEntity<Long> {
         this.project = project;
     }
 
-    public Set<LogbookEntry> getLogbookEntries() {
-        return logbookEntries;
+    public Set<LogbookEntry> getEntries() {
+        return entries;
     }
 
-    public void setLogbookEntries(Set<LogbookEntry> entries) {
-        this.logbookEntries = entries;
+    public void setEntries(Set<LogbookEntry> entries) {
+        this.entries = entries;
     }
 
     @Override

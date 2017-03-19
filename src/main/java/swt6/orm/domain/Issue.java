@@ -37,7 +37,7 @@ public class Issue implements BaseEntity<Long> {
     @Fetch(FetchMode.JOIN)
     private Project project;
 
-    @OneToMany(mappedBy = "issue", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "issue", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<LogbookEntry> entries;
 
     public Issue() {
@@ -65,6 +65,13 @@ public class Issue implements BaseEntity<Long> {
         return id;
     }
 
+    @Override
+    public void removeDependencies() {
+        while (this.getEntries().size() > 0) {
+            this.removeLogbookEntry(this.getEntries().iterator().next());
+        }
+    }
+
     public void addLogbookEntry(LogbookEntry entry) {
         if (entry == null) {
             throw new IllegalStateException("LogbookEntry was null");
@@ -76,6 +83,16 @@ public class Issue implements BaseEntity<Long> {
 
         this.entries.add(entry);
         entry.setIssue(this);
+    }
+
+    public void removeLogbookEntry(LogbookEntry entry) {
+        if (entry == null) {
+            throw new IllegalStateException("LogbookEntry was null");
+        }
+        if (entry.getIssue() == this) {
+            entry.setIssue(null);
+            this.entries.remove(entry);
+        }
     }
 
     public String getDescription() {
@@ -144,12 +161,13 @@ public class Issue implements BaseEntity<Long> {
     @Override
     public String toString() {
         String s = "";
-        s += "Issue #" + id + ": " + description + ". ";
+        s += "Issue #" + id + ": '" + description + "'. ";
         if (assignee != null) {
-            s += "Assignee: " + assignee.getFirstName() + " " + assignee.getLastName();
+            s += "Assignee: " + assignee.getFirstName() + " " + assignee.getLastName() + ". ";
         }
-        s += "  Estimated time left: " + estimatedMinutes + " minutes.\n" +
-                "  State: " + state + ". Priority: " + priority;
+        s += "Estimated time left: " + estimatedMinutes + " minutes. " +
+                "Percentage done: " + percentageDone + "%. " +
+                "State: " + state + ". Priority: " + priority;
 
         return s;
     }

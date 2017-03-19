@@ -11,9 +11,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import swt6.orm.DataOperations;
 import swt6.orm.dao.EmployeeDao;
+import swt6.orm.dao.ProjectDao;
 import swt6.orm.dao.impl.EmployeeDaoImpl;
+import swt6.orm.dao.impl.ProjectDaoImpl;
 import swt6.orm.domain.Address;
 import swt6.orm.domain.Employee;
+import swt6.orm.domain.Project;
 import swt6.orm.persistence.PersistenceManager;
 import swt6.orm.persistence.PersistenceManagerFactory;
 import swt6.util.DateUtil;
@@ -22,12 +25,11 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-public class EmployeeDaoTest {
+public class ProjectDaoTest {
     private static DbSetupTracker tracker = new DbSetupTracker();
     private static final Long id1 = 101L;
     private static final Long id2 = 102L;
-    private static final Long id3 = 103L;
-    private static final EmployeeDao dao = new EmployeeDaoImpl();
+    private static final ProjectDao dao = new ProjectDaoImpl();
     private static final PersistenceManager mgr = PersistenceManagerFactory.getManager();
 
     @BeforeClass
@@ -42,12 +44,7 @@ public class EmployeeDaoTest {
 
     @Before
     public void prepare() throws Exception {
-        Operation operation = Operations.sequenceOf(
-                DataOperations.DELETE_ALL,
-                DataOperations.INSERT_ADDRESSES,
-                DataOperations.INSERT_EMPLOYEES,
-                DataOperations.INSERT_PROJECTS,
-                DataOperations.INSERT_PROJECTEMPLOYEE);
+        Operation operation = DataOperations.DELETE_INSERT_ALL;
 
         DbSetup dbSetup = new DbSetup(new DriverManagerDestination("jdbc:derby://localhost:1527/worklogdb;create=true", "app", "derby"), operation);
         tracker.launchIfNecessary(dbSetup);
@@ -58,13 +55,10 @@ public class EmployeeDaoTest {
     public void testAdd() {
         assertTrue(
                 mgr.executeTransaction(() -> {
+                    assertEquals(2, dao.findAll().size());
+                    Project proj = new Project("hi", null);
+                    dao.addOrUpdate(proj);
                     assertEquals(3, dao.findAll().size());
-                    Employee e = new Employee("goi", "dsfu", DateUtil.getDate(1994, 3, 4));
-                    Address a = new Address("4232", "Hagenberg", "Softwarepark 14");
-                    e.setAddress(a);
-                    e = dao.addOrUpdate(e);
-                    assertNotNull(e.getId());
-                    assertEquals(4, dao.findAll().size());
                 }));
     }
 
@@ -79,13 +73,13 @@ public class EmployeeDaoTest {
         assertTrue(
                 mgr.executeTransaction(() -> {
                     final String otherName = "OtherName";
-                    Employee empl = dao.findById(id1);
-                    assertNotNull(empl);
-                    assertNotEquals(empl.getFirstName(), otherName);
-                    empl.setFirstName(otherName);
-                    empl = dao.addOrUpdate(empl);
-                    Employee otherEmpl = dao.findById(empl.getId());
-                    assertEquals(otherEmpl.getFirstName(), otherName);
+                    Project proj = dao.findById(id1);
+                    assertNotNull(proj);
+                    assertNotEquals(proj.getName(), otherName);
+                    proj.setName(otherName);
+                    proj = dao.addOrUpdate(proj);
+                    Project otherProj = dao.findById(proj.getId());
+                    assertEquals(otherProj.getName(), otherName);
                 }));
     }
 
@@ -93,36 +87,42 @@ public class EmployeeDaoTest {
     public void testDelete() {
         assertTrue(
                 mgr.executeTransaction(() -> {
-                    Employee empl = dao.findById(id2);
-                    assertNotNull(empl);
-                    dao.remove(empl);
-                    Employee nullEmpl = dao.findById(id2);
-                    assertNull(nullEmpl);
+                    Project proj = dao.findById(id1);
+                    assertNotNull(proj);
+                    dao.remove(proj);
+                    Project nullProj = dao.findById(id1);
+                    assertNull(nullProj);
 
-                    empl = dao.findById(id3);
-                    assertNotNull(empl);
-                    dao.removeById(id3);
-                    nullEmpl = dao.findById(id3);
-                    assertNull(nullEmpl);
+                    Project otherProj = dao.findById(id2);
+                    assertNotNull(otherProj);
+                    dao.removeById(otherProj.getId());
+                    nullProj = dao.findById(id2);
+                    assertNull(nullProj);
                 }));
     }
 
     @Test
-    public void testFindByName() {
+    public void testTotalMinutesSpent() {
         assertTrue(
                 mgr.executeTransaction(() -> {
-                    assertTrue(dao.findByName("Herbert").size() == 1);
-                    assertTrue(dao.findByName("ier").size() == 2);
-                    assertNotNull(dao.findByName("Haribo").get(0));
+                    Project proj = dao.findById(id1);
+                    assertNotNull(proj);
+                    long minutes = dao.getTotalMinutesSpentOnProject(proj);
+                    assertEquals(1476L, minutes);
                 }));
     }
 
+
     @Test
-    public void testFindByProject() {
+    public void testMinutesSpentByEmployee() {
         assertTrue(
                 mgr.executeTransaction(() -> {
-                    assertTrue(dao.findByProject(id1).size() == 2);
-                    assertTrue(dao.findByProject(id2).size() == 2);
+                    Project proj = dao.findById(id1);
+                    assertNotNull(proj);
+                    Employee empl = new EmployeeDaoImpl().findById(101L);
+                    assertNotNull(empl);
+                    long minutes = dao.getMinutesSpentOnProjectByEmployee(proj, empl);
+                    assertEquals(549L, minutes);
                 }));
     }
 }

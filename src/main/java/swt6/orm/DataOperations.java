@@ -14,9 +14,9 @@ public class DataOperations {
                     "PHASE",
                     "MODULE",
                     "PROJECT",
-                    "EMPLOYEE",
                     "TEMPORARYEMPLOYEE",
                     "PERMANENTEMPLOYEE",
+                    "EMPLOYEE",
                     "ADDRESS");
 
 

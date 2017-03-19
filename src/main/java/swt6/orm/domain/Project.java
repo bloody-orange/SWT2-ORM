@@ -28,7 +28,7 @@ public class Project implements BaseEntity<Long> {
     @OneToMany(mappedBy = "project")
     private Set<Module> modules;
 
-    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Issue> issues;
 
     public Set<Issue> getIssues() {
@@ -138,6 +138,16 @@ public class Project implements BaseEntity<Long> {
         }
         this.modules.remove(module);
         module.setProject(null);
+    }
+
+    public void removeDependencies() {
+        this.leader.removeLeadingProject(this);
+        for (Employee e: members) {
+            e.getProjects().remove(this);
+        }
+        for(Module m: modules) {
+            m.setProject(null);
+        }
     }
 
     public String toString() {

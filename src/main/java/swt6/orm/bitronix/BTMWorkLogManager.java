@@ -8,6 +8,7 @@ import swt6.orm.dao.impl.*;
 import swt6.orm.domain.*;
 import swt6.orm.persistence.PersistenceManager;
 import swt6.orm.persistence.PersistenceManagerFactory;
+import swt6.util.DateUtil;
 
 import java.util.List;
 
@@ -20,16 +21,100 @@ public class BTMWorkLogManager {
             new DbSetup(new DriverManagerDestination("jdbc:derby://localhost:1527/worklogdb;create=true",
                     "app", "derby"), DataOperations.DELETE_INSERT_ALL)
                     .launch();
+
+            printTitle("<< WORKFLOWS >>");
+            testIssue();
+            testEntries();
+
+            System.out.println();
+            System.out.println();
+            printTitle("<< QUERIES >>");
             findIssuesByState();
-            getTimeWorkedOnProject();
-            getIssuesForEmployee();
-            getTimePerPhase();
+            findTimeWorkedOnProject();
+            findIssuesForEmployee();
+            findTimePerPhase();
         } finally {
             mgr.closeFactory();
         }
     }
 
-    private static void getTimePerPhase() {
+    private static void testEntries() {
+        markTransactionStart("LogbookEntry Operations");
+        mgr.executeTransaction(() -> {
+            ProjectDao projectDao = new ProjectDaoImpl();
+            IssueDao issueDao = new IssueDaoImpl();
+            LogbookEntryDao entryDao = new LogbookEntryDaoImpl();
+            EmployeeDao emplDao = new EmployeeDaoImpl();
+
+            Employee empl = emplDao.findById(101L);
+            Project proj = projectDao.findById(101L);
+            Issue issue = issueDao.findById(101L);
+            Phase phase = new PhaseDaoImpl().findById(101L);
+            Module module = new ModuleDaoImpl().findByPredicate(m -> m.getProject().equals(proj)).get(0);
+            printLine();
+
+            printTitle("Creating logbook entry");
+            LogbookEntry entry = new LogbookEntry(
+                    "Testing logbook",
+                    DateUtil.getTime(2017, 3, 1, 12, 3, 4),
+                    DateUtil.getTime(2017, 3, 1, 13, 3, 4),
+                    empl,
+                    phase,
+                    module,
+                    issue
+            );
+            entry = entryDao.addOrUpdate(entry);
+            printLine(entry.toString());
+            printLine();
+
+            printTitle("View corresponding issue");
+            issue = entry.getIssue();
+            printLine(issue.toString());
+            printLine();
+
+            printTitle("Change corresponding issue");
+            issue = entry.getIssue();
+            issue.setEstimatedMinutes(480);
+            issue.setPercentageDone(25);
+            printLine(issue.toString());
+            printLine();
+        });
+        markTransactionEnd();
+    }
+
+    private static void testIssue() {
+        markTransactionStart("Issue Operations");
+        mgr.executeTransaction(() -> {
+            ProjectDao projectDao = new ProjectDaoImpl();
+            IssueDao issueDao = new IssueDaoImpl();
+            EmployeeDao emplDao = new EmployeeDaoImpl();
+
+            Employee empl = emplDao.findById(101L);
+            Project proj = projectDao.findById(101L);
+            printLine();
+
+            printTitle("Creating issue");
+            Issue issue = new Issue("Testing a workflow", proj, IssueState.NEW, IssuePriority.HIGH, 30, 0);
+            issue = issueDao.addOrUpdate(issue);
+            printLine(issue.toString());
+            printLine();
+
+            printTitle("Adding assignee to issue");
+            issue.setAssignee(empl);
+            printLine(issue.toString());
+            printLine();
+
+            printTitle("Changing issue");
+            issue.setState(IssueState.REJECTED);
+            issue.setPercentageDone(100);
+            issue.setEstimatedMinutes(0);
+            printLine(issue.toString());
+            printLine();
+        });
+        markTransactionEnd();
+    }
+
+    private static void findTimePerPhase() {
         markTransactionStart("Time per phase");
         mgr.executeTransaction(() -> {
             ProjectDao projectDao = new ProjectDaoImpl();
@@ -49,13 +134,13 @@ public class BTMWorkLogManager {
                     }
                     printLine("Phase " + phase.getName() + ": " + phaseTotal + " minutes");
                 }
-                printLine("");
+                printLine();
             }
         });
         markTransactionEnd();
     }
 
-    private static void getIssuesForEmployee() {
+    private static void findIssuesForEmployee() {
         markTransactionStart("Issues by Employee");
         mgr.executeTransaction(() -> {
             IssueDao issueDao = new IssueDaoImpl();
@@ -84,7 +169,7 @@ public class BTMWorkLogManager {
         markTransactionEnd();
     }
 
-    private static void getTimeWorkedOnProject() {
+    private static void findTimeWorkedOnProject() {
         markTransactionStart("Time worked on project");
         mgr.executeTransaction(() -> {
             ProjectDao projDao = new ProjectDaoImpl();
@@ -123,6 +208,7 @@ public class BTMWorkLogManager {
     private static void markTransactionEnd() {
         printTitle("TRANSACTION END");
         System.out.println();
+        System.out.println();
     }
 
     private static void printTitle(String title) {
@@ -137,6 +223,10 @@ public class BTMWorkLogManager {
         }
 
         System.out.println("!-------------- " + leftIndent + title + rightIndent + " --------------!");
+    }
+
+    private static void printLine() {
+        printLine("");
     }
 
     private static void printLine(String line) {

@@ -169,7 +169,8 @@ public class Employee implements BaseEntity<Long> {
         }
     }
 
-    public void removeForeignDependencies() {
+    @Override
+    public void removeDependencies() {
         while (this.getProjects().size() > 0) {
             this.getProjects().iterator().next().removeMember(this);
         }
