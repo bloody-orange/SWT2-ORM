@@ -1,9 +1,7 @@
 package swt6.orm.dao.test;
 
-import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.DbSetupTracker;
 import com.ninja_squad.dbsetup.Operations;
-import com.ninja_squad.dbsetup.destination.DriverManagerDestination;
 import com.ninja_squad.dbsetup.operation.Operation;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -11,7 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import swt6.orm.DataOperations;
 import swt6.orm.dao.EmployeeDao;
-import swt6.orm.dao.impl.EmployeeDaoImpl;
+import swt6.orm.dao.bitronix.EmployeeDaoImpl;
+import swt6.util.DbSetupUtil;
 import swt6.orm.domain.Address;
 import swt6.orm.domain.Employee;
 import swt6.orm.persistence.PersistenceManager;
@@ -32,7 +31,7 @@ public class EmployeeDaoTest {
 
     @BeforeClass
     public static void init() {
-        mgr.initFactory();
+        mgr.initFactory("WorkLogTestPU");
     }
 
     @AfterClass
@@ -48,9 +47,7 @@ public class EmployeeDaoTest {
                 DataOperations.INSERT_EMPLOYEES,
                 DataOperations.INSERT_PROJECTS,
                 DataOperations.INSERT_PROJECTEMPLOYEE);
-
-        DbSetup dbSetup = new DbSetup(new DriverManagerDestination("jdbc:derby://localhost:1527/worklogdb;create=true", "app", "derby"), operation);
-        tracker.launchIfNecessary(dbSetup);
+        tracker.launchIfNecessary(DbSetupUtil.getTestDbSetup(operation));
     }
 
 

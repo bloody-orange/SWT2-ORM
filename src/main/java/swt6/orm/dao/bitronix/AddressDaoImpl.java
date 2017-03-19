@@ -1,4 +1,4 @@
-package swt6.orm.dao.impl;
+package swt6.orm.dao.bitronix;
 
 import swt6.orm.dao.AddressDao;
 import swt6.orm.domain.Address;

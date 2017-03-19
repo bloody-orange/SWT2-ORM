@@ -14,7 +14,7 @@ public class Phase implements BaseEntity<Long> {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "phase")
+    @OneToMany(mappedBy = "phase", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<LogbookEntry> entries = new HashSet<>();
 
     public Phase() {
@@ -31,9 +31,6 @@ public class Phase implements BaseEntity<Long> {
 
     @Override
     public void removeDependencies() {
-        while (this.getEntries().size() > 0) {
-            this.removeLogbookEntry(this.getEntries().iterator().next());
-        }
     }
 
     public void setId(Long id) {

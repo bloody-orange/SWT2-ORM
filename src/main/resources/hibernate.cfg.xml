@@ -5,8 +5,8 @@
 <hibernate-configuration>
     <session-factory>
         <!-- DERBY network server properties -->
-        <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.ClientDriver</property>
-        <property name="hibernate.connection.url">jdbc:derby://localhost:1527/WorklogDb;create=true</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:derby://localhost:1527/WorklogDb</property>
         <property name="hibernate.dialect">org.hibernate.dialect.DerbyTenSevenDialect</property>
 
         <property name="hibernate.hbm2ddl.auto">create</property>

@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 class BitronixManager implements PersistenceManager {
+    private static final String DEFAULT_PU_NAME = "WorkLogPU";
+
     private EntityManagerFactory emFactory = null;
     private Context ctx = null;
     private ThreadLocal<EntityManager> emThread = new ThreadLocal<>();
@@ -151,7 +153,16 @@ class BitronixManager implements PersistenceManager {
         getFactory();
     }
 
+    @Override
+    public void initFactory(String puName) {
+        getFactory(puName);
+    }
+
     private EntityManagerFactory getFactory() {
+        return getFactory(DEFAULT_PU_NAME);
+    }
+
+    private EntityManagerFactory getFactory(String puName) {
         try {
             if (ctx == null)
                 ctx = new InitialContext();
@@ -160,7 +171,7 @@ class BitronixManager implements PersistenceManager {
         }
 
         if (emFactory == null) {
-            emFactory = Persistence.createEntityManagerFactory("WorkLogPU");
+            emFactory = Persistence.createEntityManagerFactory(puName);
         }
         return emFactory;
     }

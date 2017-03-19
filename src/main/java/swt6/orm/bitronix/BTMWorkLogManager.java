@@ -1,15 +1,16 @@
 package swt6.orm.bitronix;
 
 import com.ninja_squad.dbsetup.DbSetup;
-import com.ninja_squad.dbsetup.destination.DriverManagerDestination;
 import swt6.orm.DataOperations;
 import swt6.orm.dao.*;
-import swt6.orm.dao.impl.*;
+import swt6.orm.dao.bitronix.*;
 import swt6.orm.domain.*;
 import swt6.orm.persistence.PersistenceManager;
 import swt6.orm.persistence.PersistenceManagerFactory;
 import swt6.util.DateUtil;
+import swt6.util.DbSetupUtil;
 
+import java.io.IOException;
 import java.util.List;
 
 public class BTMWorkLogManager {
@@ -18,9 +19,9 @@ public class BTMWorkLogManager {
     public static void main(String[] args) {
         try {
             mgr.initFactory();
-            new DbSetup(new DriverManagerDestination("jdbc:derby://localhost:1527/worklogdb;create=true",
-                    "app", "derby"), DataOperations.DELETE_INSERT_ALL)
-                    .launch();
+/*
+            DbSetupUtil.getDbSetup(DataOperations.DELETE_INSERT_ALL)
+                    .launch();*/
 
             printTitle("<< WORKFLOWS >>");
             testIssue();
@@ -33,6 +34,8 @@ public class BTMWorkLogManager {
             findTimeWorkedOnProject();
             findIssuesForEmployee();
             findTimePerPhase();
+       // } catch (IOException e) {
+         //   e.printStackTrace();
         } finally {
             mgr.closeFactory();
         }

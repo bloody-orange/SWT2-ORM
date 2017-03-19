@@ -33,7 +33,7 @@ public class LogbookEntry implements BaseEntity<Long> {
     @Fetch(FetchMode.JOIN)
     private Phase phase;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Module module;
 
     @ManyToOne(fetch = FetchType.LAZY)

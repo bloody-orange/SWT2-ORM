@@ -25,7 +25,7 @@ public class Project implements BaseEntity<Long> {
     @JoinColumn(name = "leaderId")
     private Employee leader;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<Module> modules;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

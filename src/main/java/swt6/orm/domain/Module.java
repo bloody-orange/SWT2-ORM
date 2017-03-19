@@ -12,7 +12,7 @@ public class Module implements BaseEntity<Long> {
     @Column(length = 50)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, optional = false)
     private Project project;
 
     @OneToMany(mappedBy = "module")

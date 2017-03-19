@@ -7,5 +7,11 @@
       <jdbc-driver>org.apache.derby.jdbc.ClientDriver</jdbc-driver>
       <jdbc-url>jdbc:derby://localhost:1527/worklogdb;create=true</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="postgres@localhost" uuid="d6fd3cdb-cf1a-4e67-90f9-dcb6b1604e78">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
+    </data-source>
   </component>
 </project>

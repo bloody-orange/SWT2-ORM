@@ -1,6 +1,5 @@
-package swt6.orm.dao.impl;
+package swt6.orm.dao.bitronix;
 
-import sun.rmi.runtime.Log;
 import swt6.orm.dao.LogbookEntryDao;
 import swt6.orm.domain.*;
 

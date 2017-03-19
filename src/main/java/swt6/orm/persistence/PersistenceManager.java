@@ -14,6 +14,7 @@ public interface PersistenceManager {
     void commit();
     void rollback();
     void initFactory();
+    void initFactory(String puName);
     void closeFactory();
     <T extends BaseEntity> T merge(T entity);
     <T extends BaseEntity> void remove(T entity);
