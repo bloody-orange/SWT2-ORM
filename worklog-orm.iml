@@ -17,8 +17,8 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="WorkLogPU" value="45252227-eb5d-40c4-ab0b-c31c6d7a36af" />
-          <factory-entry name="WorkLogTestPU" />
+          <factory-entry name="WorkLogPU" value="d6fd3cdb-cf1a-4e67-90f9-dcb6b1604e78" />
+          <factory-entry name="WorkLogTestPU" value="45252227-eb5d-40c4-ab0b-c31c6d7a36af" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
