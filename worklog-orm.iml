@@ -18,12 +18,13 @@
         <setting name="provider-name" value="" />
         <datasource-mapping>
           <factory-entry name="WorkLogPU" value="45252227-eb5d-40c4-ab0b-c31c6d7a36af" />
+          <factory-entry name="WorkLogTestPU" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
